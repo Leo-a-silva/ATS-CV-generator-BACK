@@ -1,149 +1,95 @@
-
--- user
-
+-- USER
 CREATE TABLE public.User
 (
 	id                BIGSERIAL NOT NULL DEFAULT nextval('app_user_id_seq'::regclass),
-	first_name        TEXT NOT NULL,
 	email_address     CHARACTER (100) NOT NULL,
 	created_at        TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT now(),
-	updated_at        TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT now(),
 	password_hash     TEXT NOT NULL,
-	last_name         TEXT NOT NULL,
 	CONSTRAINT app_user_pkey PRIMARY KEY (id)
 );
 
 CREATE UNIQUE INDEX app_user_pkey ON public.User USING BTREE (id);
 
--- cv
-
-CREATE TABLE public.cv
+-- CV
+CREATE TABLE public.Cv
 (
-	id                   BIGSERIAL NOT NULL DEFAULT nextval('CV_id_seq'::regclass),
-	telephone_number     BIGINT,
-	role                 CHARACTER VARYING (30) NOT NULL,
-	summary              TEXT NOT NULL,
-	user_id              BIGINT NOT NULL,
-	created_at           TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT now(),
-	updated_at           TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT now(),
-	contact_email        CHARACTER (100) NOT NULL,
-	social_link_1        TEXT,
-	social_link_2        TEXT,
-	CONSTRAINT CV_pkey PRIMARY KEY (id)
+	id                BIGSERIAL NOT NULL DEFAULT nextval('Cv_id_seq'::regclass),
+	first_name        CHARACTER (50) NOT NULL,
+	last_name         CHARACTER (50) NOT NULL,
+	email_address     CHARACTER VARYING (150),
+	phone_number      BIGINT NOT NULL,
+	linkedin_url      TEXT NOT NULL,
+	portfolio_url     TEXT NOT NULL,
+	country           CHARACTER (80) NOT NULL,
+	city              CHARACTER (80) NOT NULL,
+	summary           TEXT NOT NULL,
+	updated_at        TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT now(),
+	created_at        TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT now(),
+	user_id           BIGINT NOT NULL,
+	CONSTRAINT Cv_pkey PRIMARY KEY (id)
 );
 
-ALTER TABLE public.cv ADD CONSTRAINT user_id FOREIGN KEY (user_id) REFERENCES public.User (id);
+ALTER TABLE public.Cv ADD CONSTRAINT Cv_User_id_fkey FOREIGN KEY (user_id) REFERENCES public.User (id);
 
-CREATE UNIQUE INDEX CV_pkey ON public.cv USING BTREE (id);
+CREATE UNIQUE INDEX Cv_pkey ON public.Cv USING BTREE (id);
 
--- skill
-
-CREATE TABLE public.skill
+-- WORK EXPERIENCE
+CREATE TABLE public.Work Experience
 (
-	id             BIGSERIAL NOT NULL DEFAULT nextval('skills_id_seq'::regclass),
-	cv_id          BIGINT NOT NULL,
-	title          CHARACTER VARYING (10),
-	updated_at     TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT now(),
-	created_at     TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT now(),
-	level          CHARACTER (50),
-	CONSTRAINT skills_pkey PRIMARY KEY (id)
-);
-
-ALTER TABLE public.skill ADD CONSTRAINT cv_id FOREIGN KEY (cv_id) REFERENCES public.cv (id);
-
-CREATE UNIQUE INDEX skills_pkey ON public.skill USING BTREE (id);
-
--- work experience
-
-CREATE TABLE public.work_experience
-(
-	id               BIGSERIAL NOT NULL DEFAULT nextval('work_experience_id_seq'::regclass),
-	cv_id            BIGINT NOT NULL,
-	created_at       TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT now(),
-	start_date       DATE NOT NULL,
+	id               BIGSERIAL NOT NULL DEFAULT nextval('Work Experience_id_seq'::regclass),
+	role             CHARACTER (80) NOT NULL,
 	end_date         DATE,
-	updated_at       TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT now(),
-	company_name     CHARACTER (80) NOT NULL,
-	description      TEXT NOT NULL,
-	CONSTRAINT work_experience_pkey PRIMARY KEY (id)
+	company_name     CHARACTER (100) NOT NULL,
+	start_date       DATE NOT NULL,
+	summary          TEXT NOT NULL,
+	cv_id            BIGINT NOT NULL,
+	CONSTRAINT Work Experience_pkey PRIMARY KEY (id)
 );
 
-ALTER TABLE public.work_experience ADD CONSTRAINT cv_id FOREIGN KEY (cv_id) REFERENCES public.cv (id);
+ALTER TABLE public.Work Experience ADD CONSTRAINT Work Experience_Cv_id_fkey FOREIGN KEY (cv_id) REFERENCES public.Cv (id);
 
-CREATE UNIQUE INDEX work_experience_pkey ON public.work_experience USING BTREE (id);
+CREATE UNIQUE INDEX Work Experience_pkey ON public.Work Experience USING BTREE (id);
 
--- certification
-
-CREATE TABLE public.certification
+-- EDUCATION
+CREATE TABLE public.Education
 (
-	id              BIGSERIAL NOT NULL DEFAULT nextval('certifications_id_seq'::regclass),
-	name            CHARACTER VARYING (63),
-	institution     CHARACTER VARYING (63),
-	date            DATE,
-	cv_id           BIGINT NOT NULL,
-	updated_at      TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT now(),
-	created_at      TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT now(),
-	description     TEXT,
-	CONSTRAINT certifications_pkey PRIMARY KEY (id)
-);
-
-ALTER TABLE public.certification ADD CONSTRAINT cv_id FOREIGN KEY (cv_id) REFERENCES public.cv (id);
-
-CREATE UNIQUE INDEX certifications_pkey ON public.certification USING BTREE (id);
-
--- academic
-
-CREATE TABLE public.academic
-(
-	id              BIGSERIAL NOT NULL DEFAULT nextval('academic_id_seq'::regclass),
+	id              BIGSERIAL NOT NULL DEFAULT nextval('Education_id_seq'::regclass),
+	start_date      DATE NOT NULL,
 	title           CHARACTER VARYING (63) NOT NULL,
 	institution     CHARACTER VARYING (63) NOT NULL,
-	start_date      DATE NOT NULL,
-	cv_id           BIGINT NOT NULL,
 	end_date        DATE,
-	updated_at      TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT now(),
-	created_at      TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT now(),
-	description     TEXT,
-	CONSTRAINT academic_pkey PRIMARY KEY (id)
-);
-
-ALTER TABLE public.academic ADD CONSTRAINT cv_id FOREIGN KEY (cv_id) REFERENCES public.cv (id);
-
-CREATE UNIQUE INDEX academic_pkey ON public.academic USING BTREE (id);
-
--- language
-
-CREATE TABLE public.language
-(
-	id                BIGSERIAL NOT NULL DEFAULT nextval('Languages_id_seq'::regclass),
-	language_name     CHARACTER VARYING (30) NOT NULL,
-	cv_id             BIGINT NOT NULL,
-	created_at        TIMESTAMP WITH TIME ZONE,
-	updated_at        TIMESTAMP WITH TIME ZONE,
-	level             CHARACTER (50),
-	certificate       CHARACTER VARYING (30),
-	CONSTRAINT Languages_pkey PRIMARY KEY (id)
-);
-
-ALTER TABLE public.language ADD CONSTRAINT cv_id FOREIGN KEY (cv_id) REFERENCES public.cv (id);
-
-CREATE UNIQUE INDEX Languages_pkey ON public.language USING BTREE (id);
-
--- project
-
-CREATE TABLE public.project
-(
-	id              BIGSERIAL NOT NULL DEFAULT nextval('project_id_seq'::regclass),
 	cv_id           BIGINT NOT NULL,
-	title           CHARACTER VARYING (63),
-	tech_stack      TEXT,
-	description     TEXT,
-	updated_at      TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT now(),
-	created_at      TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT now(),
-	link            TEXT,
-	CONSTRAINT project_pkey PRIMARY KEY (id)
+	CONSTRAINT Education_pkey PRIMARY KEY (id)
 );
 
-ALTER TABLE public.project ADD CONSTRAINT project_cv_id_fkey FOREIGN KEY (cv_id) REFERENCES public.cv (id);
+ALTER TABLE public.Education ADD CONSTRAINT Education_Cv_id_fkey FOREIGN KEY (cv_id) REFERENCES public.Cv (id);
 
-CREATE UNIQUE INDEX project_pkey ON public.project USING BTREE (id);
+CREATE UNIQUE INDEX Education_pkey ON public.Education USING BTREE (id);
+
+-- COURSES
+CREATE TABLE public.Courses
+(
+	id              BIGSERIAL NOT NULL DEFAULT nextval('Courses_id_seq'::regclass),
+	title           CHARACTER VARYING (10),
+	date            DATE,
+	institution     CHARACTER VARYING (63),
+	cv_id           BIGINT NOT NULL,
+	CONSTRAINT Courses_pkey PRIMARY KEY (id)
+);
+
+ALTER TABLE public.Courses ADD CONSTRAINT Courses_Cv_id_fkey FOREIGN KEY (cv_id) REFERENCES public.Cv (id);
+
+CREATE UNIQUE INDEX Courses_pkey ON public.Courses USING BTREE (id);
+
+-- SKILLS
+CREATE TABLE public.Skills
+(
+	id        BIGSERIAL NOT NULL DEFAULT nextval('Skills_id_seq'::regclass),
+	title     CHARACTER VARYING (10),
+	cv_id     BIGINT NOT NULL,
+	CONSTRAINT Skills_pkey PRIMARY KEY (id)
+);
+
+ALTER TABLE public.Skills ADD CONSTRAINT Skills_Cv_id_fkey FOREIGN KEY (cv_id) REFERENCES public.Cv (id);
+
+CREATE UNIQUE INDEX Skills_pkey ON public.Skills USING BTREE (id);
