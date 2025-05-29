@@ -4,8 +4,9 @@ from cvs.domain.models import Cv
 from cvs.domain.exceptions import (
     InvalidPhoneNumberException,
     InvalidEmailAddressException,
+    InvalidUrlException,
 )
-from cvs.domain.value_objects import CvEmailAddress, CvPhoneNumber
+from cvs.domain.value_objects import CvEmailAddress, CvPhoneNumber, CvURL
 
 
 class FakeCvRepository(CvsRepository):
@@ -29,8 +30,8 @@ class TestCreateCv:
                 last_name="Doe",
                 email_address="john.doe@example.com",
                 phone_number="+543434586789",
-                linkedin_url="https://linkedin.com/in/johndoe",
-                portfolio_url="https://johndoe.com",
+                linkedin_url="https://linkedin.com/",
+                portfolio_url="https://ats.com/",
                 country="USA",
                 city="New York",
                 summary="Software Engineer",
@@ -47,8 +48,8 @@ class TestCreateCv:
             email_address="john.doe@example.com"
         )
         assert cv.phone_number() == CvPhoneNumber(phone_number="+543434586789")
-        assert cv.linkedin_url() == "https://linkedin.com/in/johndoe"
-        assert cv.portfolio_url() == "https://johndoe.com"
+        assert cv.linkedin_url() == CvURL(url="https://linkedin.com/")
+        assert cv.portfolio_url() == CvURL(url="https://ats.com/")
         assert cv.country() == "USA"
         assert cv.city() == "New York"
         assert cv.summary() == "Software Engineer"
@@ -63,8 +64,8 @@ class TestCreateCv:
             last_name="Doe",
             email_address="john.doe@example.com",
             phone_number="3434589536",
-            linkedin_url="https://linkedin.com/in/johndoe",
-            portfolio_url="https://johndoe.com",
+            linkedin_url="https://linkedin.com/",
+            portfolio_url="https://ats.com/",
             country="USA",
             city="New York",
             summary="Software Engineer",
@@ -86,8 +87,8 @@ class TestCreateCv:
             last_name="Doe",
             email_address="john.doe.example.com",
             phone_number="+543434589536",
-            linkedin_url="https://linkedin.com/in/johndoe",
-            portfolio_url="https://johndoe.com",
+            linkedin_url="https://linkedin.com/",
+            portfolio_url="https://ats.com/",
             country="USA",
             city="New York",
             summary="Software Engineer",
@@ -98,3 +99,26 @@ class TestCreateCv:
             pass
         else:
             assert False, "Expected InvalidEmailAddressException"
+
+    def test_raise_exception_when_links_are_not_valid(self) -> None:
+        cv_repository = FakeCvRepository()
+        create_cv_service = CreateCv(cv_repository)
+
+        invalid_links_command = CreateCvCommand(
+            user_id=1,
+            first_name="John",
+            last_name="Doe",
+            email_address="john.doe@example.com",
+            phone_number="+543434589536",
+            linkedin_url="linkedin-in/mylinkedin",
+            portfolio_url="https://ats.com/",
+            country="USA",
+            city="New York",
+            summary="Software Engineer",
+        )
+        try:
+            create_cv_service.execute(invalid_links_command)
+        except InvalidUrlException:
+            pass
+        else:
+            assert False, "Expected InvalidUrlException"

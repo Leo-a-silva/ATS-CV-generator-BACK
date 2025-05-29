@@ -1,4 +1,4 @@
-from cvs.domain.value_objects import CvEmailAddress, CvPhoneNumber
+from cvs.domain.value_objects import CvEmailAddress, CvPhoneNumber, CvURL
 
 
 class Cv:
@@ -34,8 +34,8 @@ class Cv:
         last_name: str,
         email_address: CvEmailAddress,
         phone_number: CvPhoneNumber,
-        linkedin_url: str,
-        portfolio_url: str,
+        linkedin_url: CvURL,
+        portfolio_url: CvURL,
         country: str,
         city: str,
         summary: str,
@@ -69,10 +69,10 @@ class Cv:
     def phone_number(self) -> CvPhoneNumber:
         return self._phone_number
 
-    def linkedin_url(self) -> str:
+    def linkedin_url(self) -> CvURL:
         return self._linkedin_url
 
-    def portfolio_url(self) -> str:
+    def portfolio_url(self) -> CvURL:
         return self._portfolio_url
 
     def country(self) -> str:
