@@ -24,7 +24,5 @@ class CvEmailAddress:
     email_address: str
 
     def __post_init__(self) -> None:
-        try:
-            validators.email(self.email_address)
-        except validators.ValidationError:
+        if not validators.email(self.email_address):
             raise InvalidEmailAddressException

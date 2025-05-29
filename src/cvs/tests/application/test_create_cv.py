@@ -5,7 +5,7 @@ from cvs.domain.exceptions import (
     InvalidPhoneNumberException,
     InvalidEmailAddressException,
 )
-from cvs.domain.value_objects import CvPhoneNumber
+from cvs.domain.value_objects import CvEmailAddress, CvPhoneNumber
 
 
 class FakeCvRepository(CvsRepository):
@@ -43,7 +43,9 @@ class TestCreateCv:
         assert cv.user_id() == 1
         assert cv.first_name() == "John"
         assert cv.last_name() == "Doe"
-        assert cv.email_address() == "john.doe@example.com"
+        assert cv.email_address() == CvEmailAddress(
+            email_address="john.doe@example.com"
+        )
         assert cv.phone_number() == CvPhoneNumber(phone_number="+543434586789")
         assert cv.linkedin_url() == "https://linkedin.com/in/johndoe"
         assert cv.portfolio_url() == "https://johndoe.com"
