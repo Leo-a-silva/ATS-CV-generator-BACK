@@ -1,7 +1,11 @@
 from dataclasses import dataclass
 import phonenumbers
+import validators
 
-from cvs.domain.exceptions import InvalidPhoneNumberException
+from cvs.domain.exceptions import (
+    InvalidPhoneNumberException,
+    InvalidEmailAddressException,
+)
 
 
 @dataclass(frozen=True, kw_only=True)
@@ -13,3 +17,14 @@ class CvPhoneNumber:
             phonenumbers.parse(self.phone_number)
         except phonenumbers.phonenumberutil.NumberParseException:
             raise InvalidPhoneNumberException
+
+
+@dataclass(frozen=True, kw_only=True)
+class CvEmailAddress:
+    email_address: str
+
+    def __post_init__(self) -> None:
+        try:
+            validators.email(self.email_address)
+        except validators.ValidationError:
+            raise InvalidEmailAddressException
