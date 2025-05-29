@@ -2,6 +2,7 @@ from cvs.application.create_cv import CreateCv, CreateCvCommand
 from cvs.domain.repositories import CvsRepository
 from cvs.domain.models import Cv
 from cvs.domain.exceptions import InvalidPhoneNumberException
+from cvs.domain.value_objects import CvPhoneNumber
 
 
 class FakeCvRepository(CvsRepository):
@@ -24,7 +25,7 @@ class TestCreateCv:
                 first_name="John",
                 last_name="Doe",
                 email_address="john.doe@example.com",
-                phone_number=1234567890,
+                phone_number="+543434586789",
                 linkedin_url="https://linkedin.com/in/johndoe",
                 portfolio_url="https://johndoe.com",
                 country="USA",
@@ -40,7 +41,7 @@ class TestCreateCv:
         assert cv.first_name() == "John"
         assert cv.last_name() == "Doe"
         assert cv.email_address() == "john.doe@example.com"
-        assert cv.phone_number() == 1234567890
+        assert cv.phone_number() == CvPhoneNumber(phone_number="+543434586789")
         assert cv.linkedin_url() == "https://linkedin.com/in/johndoe"
         assert cv.portfolio_url() == "https://johndoe.com"
         assert cv.country() == "USA"
@@ -56,7 +57,7 @@ class TestCreateCv:
             first_name="John",
             last_name="Doe",
             email_address="john.doe@example.com",
-            phone_number="invalid_number",
+            phone_number="3434589536",
             linkedin_url="https://linkedin.com/in/johndoe",
             portfolio_url="https://johndoe.com",
             country="USA",

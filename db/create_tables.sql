@@ -18,7 +18,7 @@ CREATE TABLE public.Cv
 	first_name        CHARACTER (50) NOT NULL,
 	last_name         CHARACTER (50) NOT NULL,
 	email_address     CHARACTER VARYING (150),
-	phone_number      BIGINT NOT NULL,
+	phone_number      CHARACTER (20) NOT NULL,
 	linkedin_url      TEXT NOT NULL,
 	portfolio_url     TEXT NOT NULL,
 	country           CHARACTER (80) NOT NULL,

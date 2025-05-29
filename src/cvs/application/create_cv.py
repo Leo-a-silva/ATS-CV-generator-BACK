@@ -1,6 +1,7 @@
 from dataclasses import dataclass
 from cvs.domain.repositories import CvsRepository
 from cvs.domain.models import Cv
+from cvs.domain.value_objects import CvPhoneNumber
 
 
 @dataclass
@@ -9,7 +10,7 @@ class CreateCvCommand:
     first_name: str
     last_name: str
     email_address: str
-    phone_number: int
+    phone_number: str
     linkedin_url: str
     portfolio_url: str
     country: str
@@ -22,12 +23,13 @@ class CreateCv:
         self._cv_repository = cv_repository
 
     def execute(self, command: CreateCvCommand) -> None:
+        cv_phone_number = CvPhoneNumber(phone_number=command.phone_number)
         cv = Cv.create(
             user_id=command.user_id,
             first_name=command.first_name,
             last_name=command.last_name,
             email_address=command.email_address,
-            phone_number=command.phone_number,
+            phone_number=cv_phone_number,
             linkedin_url=command.linkedin_url,
             portfolio_url=command.portfolio_url,
             country=command.country,

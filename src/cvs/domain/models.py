@@ -1,3 +1,6 @@
+from cvs.domain.value_objects import CvPhoneNumber
+
+
 class Cv:
     def __init__(
         self,
@@ -5,7 +8,7 @@ class Cv:
         first_name: str,
         last_name: str,
         email_address: str,
-        phone_number: int,
+        phone_number: str,
         linkedin_url: str,
         portfolio_url: str,
         country: str,
@@ -30,7 +33,7 @@ class Cv:
         first_name: str,
         last_name: str,
         email_address: str,
-        phone_number: int,
+        phone_number: CvPhoneNumber,
         linkedin_url: str,
         portfolio_url: str,
         country: str,
@@ -63,7 +66,7 @@ class Cv:
     def email_address(self) -> str:
         return self._email_address
 
-    def phone_number(self) -> int:
+    def phone_number(self) -> str:
         return self._phone_number
 
     def linkedin_url(self) -> str:
