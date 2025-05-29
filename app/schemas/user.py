@@ -1,5 +1,5 @@
 from datetime import datetime
-from pydantic import BaseModel, EmailStr
+from pydantic import BaseModel, EmailStr, Field
 
 
 class UserBase(BaseModel):
@@ -7,7 +7,7 @@ class UserBase(BaseModel):
 
 
 class UserCreate(UserBase):
-    password_hash: str
+    password_hash: str = Field(..., min_length=8)
 
 
 class UserResponse(UserBase):
