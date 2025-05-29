@@ -2,3 +2,14 @@
 fastapi==0.115.12
 SQLAlchemy==2.0.41
 passlib==1.7.4
+
+# Testing
+httpx==0.28.1
+pytest==8.3.5
+
+# Linting
+mypy==1.15.0
+ruff==0.11.11
+
+# Database
+sqlmodel==0.0.24
