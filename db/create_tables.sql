@@ -6,6 +6,7 @@ CREATE TABLE public.User
 	created_at        TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT now(),
 	password_hash     TEXT NOT NULL,
 	CONSTRAINT app_user_pkey PRIMARY KEY (id)
+	CONSTRAINT unique_email_address UNIQUE (email_address)
 );
 
 CREATE UNIQUE INDEX app_user_pkey ON public.User USING BTREE (id);
