@@ -1,6 +1,7 @@
 from cvs.application.create_cv import CreateCv, CreateCvCommand
 from cvs.domain.repositories import CvsRepository
 from cvs.domain.models import Cv
+from cvs.domain.exceptions import InvalidPhoneNumberException
 
 
 class FakeCvRepository(CvsRepository):
@@ -45,3 +46,26 @@ class TestCreateCv:
         assert cv.country() == "USA"
         assert cv.city() == "New York"
         assert cv.summary() == "Software Engineer"
+
+    def test_raise_exception_when_data_is_not_valid(self) -> None:
+        cv_repository = FakeCvRepository()
+        create_cv_service = CreateCv(cv_repository)
+
+        invalid_phone_command = CreateCvCommand(
+            user_id=1,
+            first_name="John",
+            last_name="Doe",
+            email_address="john.doe@example.com",
+            phone_number="invalid_number",
+            linkedin_url="https://linkedin.com/in/johndoe",
+            portfolio_url="https://johndoe.com",
+            country="USA",
+            city="New York",
+            summary="Software Engineer",
+        )
+        try:
+            create_cv_service.execute(invalid_phone_command)
+        except InvalidPhoneNumberException:
+            pass
+        else:
+            assert False, "Expected InvalidPhoneNumberException"
