@@ -32,3 +32,37 @@ class TestSQLModelCvRepository:
             statement = select(CvModel)
             cv = session.exec(statement).first()
             assert cv.first_name == "Alex"
+
+    def test_returns_all_cvs(self) -> None:
+        with Session(engine) as session:
+            session.add(
+                CvModel(
+                    user_id=2,
+                    first_name="Marcelo",
+                    last_name="Tinelli",
+                    email_address="marcelo.tinelli@example.com",
+                    phone_number="+543434586888",
+                    linkedin_url="https://linkedin.com/",
+                    portfolio_url="https://ats.com/",
+                    country="ARG",
+                    city="Buenos Aires",
+                    summary="TV Star",
+                )
+            )
+            session.commit()
+
+        cvs = SQLModelCvsRepository().all()
+
+        assert len(cvs) == 1
+        assert cvs[0] == CvModel(
+            user_id=2,
+            first_name="Marcelo",
+            last_name="Tinelli",
+            email_address="marcelo.tinelli@example.com",
+            phone_number="+543434586888",
+            linkedin_url="https://linkedin.com/",
+            portfolio_url="https://ats.com/",
+            country="ARG",
+            city="Buenos Aires",
+            summary="TV Star",
+        )
