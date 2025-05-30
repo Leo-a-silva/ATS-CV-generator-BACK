@@ -2,7 +2,6 @@ import pytest
 from cvs.domain.models import Cv
 from cvs.infrastructure.repositories import SQLModelCvsRepository, engine, CvModel
 from sqlmodel import SQLModel, Session, select
-from shared.infrastructure.logger_conf import logger
 
 
 class TestSQLModelCvRepository:
