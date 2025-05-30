@@ -26,15 +26,15 @@ class TestCreateCv:
         CreateCv(cv_repository).execute(
             CreateCvCommand(
                 user_id=1,
-                first_name="John",
-                last_name="Doe",
-                email_address="john.doe@example.com",
+                first_name="Alex",
+                last_name="Caniggia",
+                email_address="alex.caniggia@example.com",
                 phone_number="+543434586789",
                 linkedin_url="https://linkedin.com/",
                 portfolio_url="https://ats.com/",
-                country="USA",
-                city="New York",
-                summary="Software Engineer",
+                country="ARG",
+                city="Buenos Aires",
+                summary="Star",
             )
         )
 
@@ -42,17 +42,17 @@ class TestCreateCv:
         assert len(cvs) == 1
         cv = cvs[0]
         assert cv.user_id() == 1
-        assert cv.first_name() == "John"
-        assert cv.last_name() == "Doe"
+        assert cv.first_name() == "Alex"
+        assert cv.last_name() == "Caniggia"
         assert cv.email_address() == CvEmailAddress(
-            email_address="john.doe@example.com"
+            email_address="alex.caniggia@example.com"
         )
         assert cv.phone_number() == CvPhoneNumber(phone_number="+543434586789")
         assert cv.linkedin_url() == CvURL(url="https://linkedin.com/")
         assert cv.portfolio_url() == CvURL(url="https://ats.com/")
-        assert cv.country() == "USA"
-        assert cv.city() == "New York"
-        assert cv.summary() == "Software Engineer"
+        assert cv.country() == "ARG"
+        assert cv.city() == "Buenos Aires"
+        assert cv.summary() == "Star"
 
     def test_raise_exception_when_phone_number_is_not_valid(self) -> None:
         cv_repository = FakeCvRepository()
@@ -60,15 +60,15 @@ class TestCreateCv:
 
         invalid_phone_command = CreateCvCommand(
             user_id=1,
-            first_name="John",
-            last_name="Doe",
-            email_address="john.doe@example.com",
+            first_name="Alex",
+            last_name="Caniggia",
+            email_address="alex.caniggia@example.com",
             phone_number="3434589536",
             linkedin_url="https://linkedin.com/",
             portfolio_url="https://ats.com/",
-            country="USA",
-            city="New York",
-            summary="Software Engineer",
+            country="ARG",
+            city="Buenos Aires",
+            summary="Star",
         )
         try:
             create_cv_service.execute(invalid_phone_command)
@@ -83,15 +83,15 @@ class TestCreateCv:
 
         invalid_email_command = CreateCvCommand(
             user_id=1,
-            first_name="John",
-            last_name="Doe",
-            email_address="john.doe.example.com",
+            first_name="Alex",
+            last_name="Caniggia",
+            email_address="alex.caniggia.example.com",
             phone_number="+543434589536",
             linkedin_url="https://linkedin.com/",
             portfolio_url="https://ats.com/",
-            country="USA",
-            city="New York",
-            summary="Software Engineer",
+            country="ARG",
+            city="Buenos Aires",
+            summary="Star",
         )
         try:
             create_cv_service.execute(invalid_email_command)
@@ -106,15 +106,15 @@ class TestCreateCv:
 
         invalid_links_command = CreateCvCommand(
             user_id=1,
-            first_name="John",
-            last_name="Doe",
-            email_address="john.doe@example.com",
+            first_name="Alex",
+            last_name="Caniggia",
+            email_address="alex.caniggia@example.com",
             phone_number="+543434589536",
             linkedin_url="linkedin-in/mylinkedin",
             portfolio_url="https://ats.com/",
-            country="USA",
-            city="New York",
-            summary="Software Engineer",
+            country="ARG",
+            city="Buenos Aires",
+            summary="Star",
         )
         try:
             create_cv_service.execute(invalid_links_command)
