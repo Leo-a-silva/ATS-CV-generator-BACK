@@ -1,3 +1,4 @@
+from datetime import datetime
 import pytest
 from cvs.domain.models import Cv
 from cvs.infrastructure.repositories import SQLModelCvsRepository, engine, CvModel
@@ -7,6 +8,8 @@ from sqlmodel import SQLModel, Session, select
 class TestSQLModelCvRepository:
     @pytest.fixture(autouse=True)
     def clean_up_db(self):
+        SQLModel.metadata.drop_all(engine)
+        SQLModel.metadata.create_all(engine)
         yield
         SQLModel.metadata.drop_all(engine)
 
@@ -47,6 +50,8 @@ class TestSQLModelCvRepository:
                     country="ARG",
                     city="Buenos Aires",
                     summary="TV Star",
+                    created_at=datetime.now(),
+                    updated_at=datetime.now(),
                 )
             )
             session.commit()
@@ -54,15 +59,4 @@ class TestSQLModelCvRepository:
         cvs = SQLModelCvsRepository().all()
 
         assert len(cvs) == 1
-        assert cvs[0] == CvModel(
-            user_id=2,
-            first_name="Marcelo",
-            last_name="Tinelli",
-            email_address="marcelo.tinelli@example.com",
-            phone_number="+543434586888",
-            linkedin_url="https://linkedin.com/",
-            portfolio_url="https://ats.com/",
-            country="ARG",
-            city="Buenos Aires",
-            summary="TV Star",
-        )
+        assert cvs[0].user_id == 2

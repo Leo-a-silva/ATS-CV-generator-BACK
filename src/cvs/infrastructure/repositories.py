@@ -1,6 +1,6 @@
 from pydantic import EmailStr
 from datetime import datetime
-from sqlmodel import Field, SQLModel, create_engine, Session
+from sqlmodel import Field, SQLModel, create_engine, Session, select
 from ..domain.repositories import CvsRepository
 from ..domain.models import Cv
 
@@ -27,7 +27,26 @@ SQLModel.metadata.create_all(engine)
 
 class SQLModelCvsRepository(CvsRepository):
     def all(self) -> list[Cv]:
-        pass
+        with Session(engine) as session:
+            cv_models = session.exec(select(CvModel)).all()
+
+        return [
+            CvModel(
+                user_id=cv_model.user_id,
+                first_name=cv_model.first_name,
+                last_name=cv_model.last_name,
+                email_address=cv_model.email_address,
+                phone_number=cv_model.phone_number,
+                linkedin_url=cv_model.linkedin_url,
+                portfolio_url=cv_model.portfolio_url,
+                country=cv_model.country,
+                city=cv_model.city,
+                summary=cv_model.summary,
+                created_at=cv_model.created_at,
+                updated_at=cv_model.updated_at,
+            )
+            for cv_model in cv_models
+        ]
 
     def save(self, cv: Cv) -> None:
         cv_model = CvModel(
