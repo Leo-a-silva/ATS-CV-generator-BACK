@@ -32,5 +32,4 @@ class TestSQLModelCvRepository:
         with Session(engine) as session:
             statement = select(CvModel)
             cv = session.exec(statement).first()
-            logger.info(f"cv: {cv}")
-            cv.first_name == "John"
+            assert cv.first_name == "Alex"
