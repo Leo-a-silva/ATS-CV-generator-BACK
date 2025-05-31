@@ -1,12 +1,15 @@
 from datetime import datetime
-from sqlmodel import Field, SQLModel, create_engine, Session, select
+from sqlmodel import Field, SQLModel, Session, select
 
 from ..domain.repositories import CvsRepository
 from ..domain.models import Cv
 from shared.infrastructure.logger_conf import logger
 
+from .db_conf import engine
+
 
 class CvModel(SQLModel, table=True):
+    __tablename__ = "Cv"
     id: int | None = Field(default=None, primary_key=True)
     user_id: int
     first_name: str = Field(..., max_length=50)
@@ -20,10 +23,6 @@ class CvModel(SQLModel, table=True):
     summary: str
     created_at: datetime
     updated_at: datetime
-
-
-engine = create_engine("sqlite:///database.db", echo=True)
-SQLModel.metadata.create_all(engine)
 
 
 class SQLModelCvsRepository(CvsRepository):
