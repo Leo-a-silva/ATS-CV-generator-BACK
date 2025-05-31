@@ -22,11 +22,11 @@ class CreateCv:
     def __init__(self, cv_repository: CvsRepository):
         self._cv_repository = cv_repository
 
-    def execute(self, command: CreateCvCommand) -> None:
-        cv_phone_number = CvPhoneNumber(phone_number=command.phone_number)
-        cv_email_address = CvEmailAddress(email_address=command.email_address)
-        cv_linkedin_url = CvURL(url=command.linkedin_url)
-        cv_portfolio_url = CvURL(url=command.portfolio_url)
+    def execute(self, command: CreateCvCommand) -> Cv:
+        cv_phone_number = CvPhoneNumber(value=command.phone_number)
+        cv_email_address = CvEmailAddress(value=command.email_address)
+        cv_linkedin_url = CvURL(value=command.linkedin_url)
+        cv_portfolio_url = CvURL(value=command.portfolio_url)
 
         cv = Cv.create(
             user_id=command.user_id,
@@ -42,3 +42,4 @@ class CreateCv:
         )
 
         self._cv_repository.save(cv)
+        return cv

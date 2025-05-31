@@ -44,12 +44,10 @@ class TestCreateCv:
         assert cv.user_id() == 1
         assert cv.first_name() == "Alex"
         assert cv.last_name() == "Caniggia"
-        assert cv.email_address() == CvEmailAddress(
-            email_address="alex.caniggia@example.com"
-        )
-        assert cv.phone_number() == CvPhoneNumber(phone_number="+543434586789")
-        assert cv.linkedin_url() == CvURL(url="https://linkedin.com/")
-        assert cv.portfolio_url() == CvURL(url="https://ats.com/")
+        assert cv.email_address() == CvEmailAddress(value="alex.caniggia@example.com")
+        assert cv.phone_number() == CvPhoneNumber(value="+543434586789")
+        assert cv.linkedin_url() == CvURL(value="https://linkedin.com/")
+        assert cv.portfolio_url() == CvURL(value="https://ats.com/")
         assert cv.country() == "ARG"
         assert cv.city() == "Buenos Aires"
         assert cv.summary() == "Star"

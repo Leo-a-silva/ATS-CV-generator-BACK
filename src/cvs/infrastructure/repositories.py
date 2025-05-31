@@ -1,8 +1,9 @@
-from pydantic import EmailStr
 from datetime import datetime
 from sqlmodel import Field, SQLModel, create_engine, Session, select
+
 from ..domain.repositories import CvsRepository
 from ..domain.models import Cv
+from shared.infrastructure.logger_conf import logger
 
 
 class CvModel(SQLModel, table=True):
@@ -10,7 +11,7 @@ class CvModel(SQLModel, table=True):
     user_id: int
     first_name: str = Field(..., max_length=50)
     last_name: str = Field(..., max_length=50)
-    email_address: EmailStr | None = None
+    email_address: str
     phone_number: str
     linkedin_url: str
     portfolio_url: str
@@ -53,16 +54,17 @@ class SQLModelCvsRepository(CvsRepository):
             user_id=cv.user_id(),
             first_name=cv.first_name(),
             last_name=cv.last_name(),
-            email_address=cv.email_address(),
-            phone_number=cv.phone_number(),
-            linkedin_url=cv.linkedin_url(),
-            portfolio_url=cv.portfolio_url(),
+            email_address=cv.email_address().value,
+            phone_number=cv.phone_number().value,
+            linkedin_url=cv.linkedin_url().value,
+            portfolio_url=cv.portfolio_url().value,
             country=cv.country(),
             city=cv.city(),
             summary=cv.summary(),
             created_at=datetime.now(),
             updated_at=datetime.now(),
         )
+        logger.info({"cv": cv_model})
         with Session(engine) as session:
             session.add(cv_model)
             session.commit()

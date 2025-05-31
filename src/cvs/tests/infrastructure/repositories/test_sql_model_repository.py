@@ -1,6 +1,7 @@
 from datetime import datetime
 import pytest
 from cvs.domain.models import Cv
+from cvs.domain.value_objects import CvEmailAddress, CvPhoneNumber, CvURL
 from cvs.infrastructure.repositories import SQLModelCvsRepository, engine, CvModel
 from sqlmodel import SQLModel, Session, select
 
@@ -21,10 +22,10 @@ class TestSQLModelCvRepository:
                 user_id=1,
                 first_name="Alex",
                 last_name="Caniggia",
-                email_address="alex.caniggia@example.com",
-                phone_number="+543434586789",
-                linkedin_url="https://linkedin.com/",
-                portfolio_url="https://ats.com/",
+                email_address=CvEmailAddress(value="alex.caniggia@example.com"),
+                phone_number=CvPhoneNumber(value="+543434586789"),
+                linkedin_url=CvURL(value="https://linkedin.com/"),
+                portfolio_url=CvURL(value="https://ats.com/"),
                 country="ARG",
                 city="Buenos Aires",
                 summary="Star",

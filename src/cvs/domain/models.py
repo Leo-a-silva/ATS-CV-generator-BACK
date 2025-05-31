@@ -41,16 +41,16 @@ class Cv:
         summary: str,
     ) -> "Cv":
         return cls(
-            user_id=user_id,
-            first_name=first_name,
-            last_name=last_name,
-            email_address=email_address,
-            phone_number=phone_number,
-            linkedin_url=linkedin_url,
-            portfolio_url=portfolio_url,
-            country=country,
-            city=city,
-            summary=summary,
+            user_id,
+            first_name,
+            last_name,
+            email_address,
+            phone_number,
+            linkedin_url,
+            portfolio_url,
+            country,
+            city,
+            summary,
         )
 
     # Métodos para acceder a los atributos

@@ -19,21 +19,17 @@ def test_creates_cv_and_returns_200_ok():
     }
 
     res = {
-        "cv_id": 1,
-        "data": {
-            "user_id": 1,
-            "first_name": "Alex",
-            "last_name": "Caniggia",
-            "email_address": "alex.caniggia@example.com",
-            "phone_number": "+543434586789",
-            "linkedin_url": "https://linkedin.com/",
-            "portfolio_url": "https://ats.com/",
-            "country": "ARG",
-            "city": "Buenos Aires",
-            "summary": "Star",
-        },
+        "first_name": "Alex",
+        "last_name": "Caniggia",
+        "email_address": "alex.caniggia@example.com",
+        "phone_number": "+543434586789",
+        "linkedin_url": "https://linkedin.com/",
+        "portfolio_url": "https://ats.com/",
+        "country": "ARG",
+        "city": "Buenos Aires",
+        "summary": "Star",
     }
 
-    response = client.post("/cvs/", data=cv_input)
+    response = client.post("/cvs/", json=cv_input)
     assert response.status_code == 200
     assert response.json() == res

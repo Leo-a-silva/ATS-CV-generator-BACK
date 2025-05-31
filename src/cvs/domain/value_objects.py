@@ -11,28 +11,32 @@ from cvs.domain.exceptions import (
 
 @dataclass(frozen=True, kw_only=True)
 class CvPhoneNumber:
-    phone_number: str
+    value: str
 
     def __post_init__(self) -> None:
         try:
-            phonenumbers.parse(self.phone_number)
+            phonenumbers.parse(self.value)
         except phonenumbers.phonenumberutil.NumberParseException:
             raise InvalidPhoneNumberException
 
 
 @dataclass(frozen=True, kw_only=True)
 class CvEmailAddress:
-    email_address: str
+    value: str
 
     def __post_init__(self) -> None:
-        if not validators.email(self.email_address):
+        if not validators.email(self.value):
             raise InvalidEmailAddressException
+
+    @property
+    def get_value(self) -> str:
+        return self._email_address
 
 
 @dataclass(frozen=True, kw_only=True)
 class CvURL:
-    url: str
+    value: str
 
     def __post_init__(self) -> None:
-        if not validators.url(self.url):
+        if not validators.url(self.value):
             raise InvalidUrlException
