@@ -4,9 +4,9 @@ import validators
 
 from cvs.domain.exceptions import (
     InvalidPhoneNumberException,
-    InvalidEmailAddressException,
     InvalidUrlException,
 )
+from shared.domain.exceptions import InvalidEmailAddressException
 
 
 @dataclass(frozen=True, kw_only=True)
@@ -27,10 +27,6 @@ class CvEmailAddress:
     def __post_init__(self) -> None:
         if not validators.email(self.value):
             raise InvalidEmailAddressException
-
-    @property
-    def get_value(self) -> str:
-        return self._email_address
 
 
 @dataclass(frozen=True, kw_only=True)
