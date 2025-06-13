@@ -3,9 +3,8 @@ from sqlmodel import Field, SQLModel, Session, select
 
 from ..domain.repositories import CvsRepository
 from ..domain.models import Cv
-from shared.infrastructure.logger_conf import logger
 
-from .db_conf import engine
+from ...shared.infrastructure.db_conf import engine
 
 
 class CvModel(SQLModel, table=True):
@@ -63,7 +62,6 @@ class SQLModelCvsRepository(CvsRepository):
             created_at=datetime.now(),
             updated_at=datetime.now(),
         )
-        logger.info({"cv": cv_model})
         with Session(engine) as session:
             session.add(cv_model)
             session.commit()

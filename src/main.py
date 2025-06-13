@@ -4,7 +4,7 @@ from sqlmodel import SQLModel
 from shared.infrastructure.api import router as shared_router
 from cvs.infrastructure.api import router as cvs_router
 from shared.infrastructure.logger_conf import logger
-from cvs.infrastructure.db_conf import engine
+from shared.infrastructure.db_conf import engine
 
 
 @asynccontextmanager

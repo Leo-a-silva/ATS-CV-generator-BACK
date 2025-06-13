@@ -2,7 +2,7 @@ from fastapi.testclient import TestClient
 import pytest
 from sqlmodel import SQLModel
 
-from cvs.infrastructure.db_conf import engine
+from shared.infrastructure.db_conf import engine
 from main import app
 
 client = TestClient(app)
