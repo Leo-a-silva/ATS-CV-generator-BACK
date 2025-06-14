@@ -1,9 +1,20 @@
 from fastapi.testclient import TestClient
 import pytest
 from sqlmodel import SQLModel
+from fastapi import FastAPI
 
 from shared.infrastructure.db_conf import engine
-from main import app
+
+
+def create_test_app():
+    from cvs.infrastructure.api import router as cvs_router
+
+    app = FastAPI()
+    app.include_router(cvs_router, prefix="/api", tags=["CVs"])
+    return app
+
+
+app = create_test_app()
 
 client = TestClient(app)
 
@@ -43,5 +54,5 @@ class TestCvCreation:
         }
 
         response = client.post("/api/cvs/", json=cv_input)
-        assert response.status_code == 200
         assert response.json() == res
+        assert response.status_code == 200

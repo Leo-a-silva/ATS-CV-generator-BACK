@@ -2,7 +2,8 @@ from datetime import datetime
 import pytest
 from cvs.domain.models import Cv
 from cvs.domain.value_objects import CvEmailAddress, CvPhoneNumber, CvURL
-from cvs.infrastructure.repositories import SQLModelCvsRepository, engine, CvModel
+from cvs.infrastructure.repositories import SQLModelCvsRepository, CvModel
+from shared.infrastructure.db_conf import engine
 from sqlmodel import SQLModel, Session, select
 
 

@@ -3,10 +3,10 @@ from cvs.domain.repositories import CvsRepository
 from cvs.domain.models import Cv
 from cvs.domain.exceptions import (
     InvalidPhoneNumberException,
-    InvalidEmailAddressException,
     InvalidUrlException,
 )
 from cvs.domain.value_objects import CvEmailAddress, CvPhoneNumber, CvURL
+from shared.domain.exceptions import InvalidEmailAddressException
 
 
 class FakeCvRepository(CvsRepository):

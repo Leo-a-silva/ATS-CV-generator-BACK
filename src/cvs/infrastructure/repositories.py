@@ -4,11 +4,12 @@ from sqlmodel import Field, SQLModel, Session, select
 from ..domain.repositories import CvsRepository
 from ..domain.models import Cv
 
-from ...shared.infrastructure.db_conf import engine
+from shared.infrastructure.db_conf import engine
 
 
 class CvModel(SQLModel, table=True):
-    __tablename__ = "Cv"
+    __tablename__ = "cvs"
+
     id: int | None = Field(default=None, primary_key=True)
     user_id: int
     first_name: str = Field(..., max_length=50)
