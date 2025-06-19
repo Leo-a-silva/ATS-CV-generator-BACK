@@ -1,5 +1,4 @@
 from dataclasses import dataclass
-from typing import Protocol
 
 from ...domain.models import User
 from ...domain.repositories import UsersRepository

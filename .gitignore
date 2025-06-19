@@ -7,3 +7,5 @@ __pycache__
 *.DS_Store
 *.db
 project-structure.txt
+
+copilot-instructions.md

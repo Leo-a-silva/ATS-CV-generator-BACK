@@ -1,7 +1,7 @@
 from fastapi import APIRouter
 
 from cvs.application.create_cv import CreateCv, CreateCvCommand
-from cvs.infrastructure.cv_schema import CvCreate, CvResponse
+from src.cvs.infrastructure.schemas import CvCreate, CvResponse
 from cvs.infrastructure.repositories import SQLModelCvsRepository
 
 router = APIRouter()

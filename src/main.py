@@ -23,5 +23,5 @@ app = FastAPI(
 )
 
 
-app.include_router(shared_router, prefix="/api", tags=["CVs"])
+app.include_router(shared_router, prefix="/api")
 app.include_router(cvs_router, prefix="/api", tags=["CVs"])
