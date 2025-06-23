@@ -11,7 +11,7 @@ class CvModel(SQLModel, table=True):
     __tablename__ = "cvs"
 
     id: int | None = Field(default=None, primary_key=True)
-    user_id: int | None = Field(default=None, foreign_key="usermodel.id")
+    user_id: int | None = Field(default=None, foreign_key="users.id")
     first_name: str = Field(..., max_length=50)
     last_name: str = Field(..., max_length=50)
     email_address: str

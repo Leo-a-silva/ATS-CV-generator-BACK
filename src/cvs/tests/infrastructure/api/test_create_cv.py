@@ -8,9 +8,11 @@ from shared.infrastructure.db_conf import engine
 
 def create_test_app():
     from src.cvs.infrastructure.routes import router as cvs_router
+    from src.users.infrastructure.api.routes import router as users_router
 
     app = FastAPI()
     app.include_router(cvs_router, prefix="/api", tags=["CVs"])
+    app.include_router(users_router, prefix="/api", tags=["Users"])
     return app
 
 
@@ -28,6 +30,15 @@ class TestCvCreation:
         SQLModel.metadata.drop_all(engine)
 
     def test_creates_cv_and_returns_200_ok(self):
+        # Create fake user
+        request_data = {
+            "email_address": "test@example.com",
+            "password": "Secure_password123",
+        }
+
+        user_response = client.post("/api/users/register/", json=request_data)
+
+        # Create CV
         cv_input = {
             "user_id": 1,
             "first_name": "Alex",
@@ -55,4 +66,4 @@ class TestCvCreation:
 
         response = client.post("/api/cvs/", json=cv_input)
         assert response.json() == res
-        assert response.status_code == 200
+        assert response.status_code == 201

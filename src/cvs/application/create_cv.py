@@ -32,7 +32,8 @@ class CreateCv:
         self._users_repository = users_repository
 
     def execute(self, command: CreateCvCommand) -> Cv:
-        if not self._users_repository.exists_by_id(command.user_id):
+        id_object = Id(value=command.user_id)
+        if not self._users_repository.exists_by_id(id_object):
             raise UserDoesNotExist(
                 message=f"User with id {command.user_id} does not exist"
             )

@@ -1,3 +1,4 @@
+import stat
 from fastapi import APIRouter, HTTPException, status
 
 from cvs.application.create_cv import CreateCv, CreateCvCommand
@@ -5,14 +6,25 @@ from src.cvs.domain.exceptions import InvalidPhoneNumberException, InvalidUrlExc
 from src.cvs.infrastructure.schemas import CvCreate, CvResponse
 from cvs.infrastructure.repositories import SQLModelCvsRepository
 from src.shared.domain.exceptions import InvalidEmailAddressException
+from src.users.domain.exceptions import UserDoesNotExist
+from src.users.infrastructure.repositories import SQLModelUsersRepository
 
 router = APIRouter()
 
 
-@router.post("/cvs/", response_model=CvResponse)
+@router.post(
+    "/cvs/",
+    response_model=CvResponse,
+    status_code=status.HTTP_201_CREATED,
+)
 def create_cv(payload: CvCreate):
+    cvs_repository = SQLModelCvsRepository()
+    users_repository = SQLModelUsersRepository()
+
     try:
-        cv = CreateCv(SQLModelCvsRepository()).execute(
+        create_cv_service = CreateCv(cvs_repository, users_repository)
+
+        cv = create_cv_service.execute(
             CreateCvCommand(
                 user_id=payload.user_id,
                 first_name=payload.first_name,
@@ -27,6 +39,11 @@ def create_cv(payload: CvCreate):
             )
         )
         return CvResponse.from_domain(cv)
+
+    except UserDoesNotExist as e:
+        raise HTTPException(
+            status_code=status.HTTP_422_UNPROCESSABLE_ENTITY, detail=str(e)
+        )
 
     except InvalidPhoneNumberException as e:
         raise HTTPException(

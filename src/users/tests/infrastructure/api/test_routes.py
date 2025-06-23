@@ -10,11 +10,14 @@ def create_test_app():
     from users.infrastructure.api.routes import router
 
     app = FastAPI()
+
     app.include_router(router, prefix="/api")
+
     return app
 
 
 app = create_test_app()
+
 
 client = TestClient(app)
 
@@ -55,15 +58,14 @@ class TestUserCreation:
         assert response.status_code == 409
         assert "already exists" in response.json()["detail"]
 
+    def test_register_user_with_invalid_email(self):
+        request_data = {
+            "email_address": "invalid-email",
+            "password": "Secure_password123",
+        }
 
-def test_register_user_with_invalid_email(client: TestClient):
-    request_data = {
-        "email_address": "invalid-email",
-        "password": "Secure_password123",
-    }
-
-    response = client.post("/api/users/register", json=request_data)
-
-    assert response.status_code == 422
-    errors = response.json()["detail"]
-    assert "Invalid email address format" in errors
+        response = client.post("/api/users/register", json=request_data)
+        assert response.status_code == 422
+        assert (
+            "value is not a valid email address" in response.json()["detail"][0]["msg"]
+        )
