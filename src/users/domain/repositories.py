@@ -1,7 +1,7 @@
 from abc import ABC, abstractmethod
 from typing import Optional
 
-from .value_objects import UserEmailAddress
+from .value_objects import Id, UserEmailAddress
 from .models import User
 
 
@@ -20,3 +20,6 @@ class UsersRepository(ABC):
 
     @abstractmethod
     def exists_by_email(self, email: UserEmailAddress) -> bool: ...
+
+    @abstractmethod
+    def exists_by_id(self, id: Id) -> bool: ...

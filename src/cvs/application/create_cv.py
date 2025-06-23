@@ -1,7 +1,11 @@
 from dataclasses import dataclass
+from typing import Type
 from cvs.domain.repositories import CvsRepository
 from cvs.domain.models import Cv
 from cvs.domain.value_objects import CvEmailAddress, CvPhoneNumber, CvURL
+from src.users.domain.exceptions import UserDoesNotExist
+from src.users.domain.repositories import UsersRepository
+from src.users.domain.value_objects import Id
 
 
 @dataclass
@@ -19,10 +23,20 @@ class CreateCvCommand:
 
 
 class CreateCv:
-    def __init__(self, cv_repository: CvsRepository):
+    def __init__(
+        self,
+        cv_repository: CvsRepository,
+        users_repository: UsersRepository,
+    ):
         self._cv_repository = cv_repository
+        self._users_repository = users_repository
 
     def execute(self, command: CreateCvCommand) -> Cv:
+        if not self._users_repository.exists_by_id(command.user_id):
+            raise UserDoesNotExist(
+                message=f"User with id {command.user_id} does not exist"
+            )
+
         cv_phone_number = CvPhoneNumber(value=command.phone_number)
         cv_email_address = CvEmailAddress(value=command.email_address)
         cv_linkedin_url = CvURL(value=command.linkedin_url)

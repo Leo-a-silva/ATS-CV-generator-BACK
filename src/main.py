@@ -2,7 +2,7 @@ from contextlib import asynccontextmanager
 from fastapi import FastAPI
 from sqlmodel import SQLModel
 from shared.infrastructure.api import router as shared_router
-from cvs.infrastructure.api import router as cvs_router
+from src.cvs.infrastructure.routes import router as cvs_router
 from users.infrastructure.api.routes import router as users_router
 from shared.infrastructure.logger_conf import logger
 from shared.infrastructure.db_conf import engine

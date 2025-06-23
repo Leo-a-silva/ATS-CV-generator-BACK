@@ -7,7 +7,7 @@ from shared.infrastructure.db_conf import engine
 
 
 def create_test_app():
-    from cvs.infrastructure.api import router as cvs_router
+    from src.cvs.infrastructure.routes import router as cvs_router
 
     app = FastAPI()
     app.include_router(cvs_router, prefix="/api", tags=["CVs"])

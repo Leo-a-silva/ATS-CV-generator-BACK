@@ -45,6 +45,11 @@ class SQLModelUsersRepository(UsersRepository):
         with Session(engine) as session:
             return session.exec(statement).first() is not None
 
+    def exists_by_id(self, id: Id) -> bool:
+        statement = select(UserModel).where(UserModel.id == id.value)
+        with Session(engine) as session:
+            return session.exec(statement).first() is not None
+
     def save(self, user: User) -> None:
         if not user.is_persisted():
             return self._create_user(user)
