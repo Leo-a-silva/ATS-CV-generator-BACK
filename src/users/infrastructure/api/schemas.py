@@ -1,12 +1,13 @@
+from datetime import datetime
 from pydantic import BaseModel, EmailStr
 
 
 class RegisterUserRequest(BaseModel):
-    email: EmailStr
+    email_address: EmailStr
     password: str
 
 
 class RegisterUserResponse(BaseModel):
     user_id: int
-    email: str
-    created_at: str
+    email_address: str
+    created_at: datetime

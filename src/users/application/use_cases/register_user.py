@@ -1,4 +1,5 @@
 from dataclasses import dataclass
+from datetime import datetime
 
 from ...domain.models import User
 from ...domain.repositories import UsersRepository
@@ -9,15 +10,15 @@ from ...domain.exceptions import UserAlreadyExistsException
 
 @dataclass
 class RegisterUserCommand:
-    email: str
+    email_address: str
     password: str
 
 
 @dataclass
 class RegisterUserResponse:
     user_id: int
-    email: str
-    created_at: str
+    email_address: str
+    created_at: datetime
 
 
 class RegisterUserUseCase:
@@ -30,19 +31,21 @@ class RegisterUserUseCase:
         self._password_hashing_service = password_hashing_service
 
     def execute(self, command: RegisterUserCommand) -> RegisterUserResponse:
-        email = UserEmailAddress(value=command.email)
+        email_address = UserEmailAddress(value=command.email_address)
         plain_password = PlainPassword(value=command.password)
 
-        if self._users_repository.exists_by_email(email):
-            raise UserAlreadyExistsException(f"User with email {email} already exists")
+        if self._users_repository.exists_by_email(email_address):
+            raise UserAlreadyExistsException(
+                f"User with email {email_address.value} already exists"
+            )
 
         hashed_password = self._password_hashing_service.hash_password(plain_password)
 
-        user = User.create(email=email, hashed_password=hashed_password)
+        user = User.create(email_address=email_address, hashed_password=hashed_password)
         saved_user = self._users_repository.save(user)
 
         return RegisterUserResponse(
-            user_id=saved_user.id.value,
-            email=saved_user.email.value,
-            created_at=saved_user.created_at.isoformat(),
+            user_id=saved_user.get_id().value,
+            email_address=saved_user.email_address().value,
+            created_at=saved_user.created_at(),
         )

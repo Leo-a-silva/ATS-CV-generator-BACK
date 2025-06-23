@@ -13,8 +13,10 @@ from shared.infrastructure.db_conf import engine
 class UserModel(SQLModel, table=True):
     __tablename__ = "users"
 
+    __table_args__ = {"extend_existing": True}
+
     id: int | None = Field(default=None, primary_key=True)
-    email_address: str = Field(unique=True, index=True)
+    email_address: str
     hashed_password: str
     created_at: datetime
     updated_at: datetime

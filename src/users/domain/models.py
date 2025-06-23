@@ -47,8 +47,7 @@ class User:
             updated_at=updated_at,
         )
 
-    @property
-    def id(self) -> Optional[Id]:
+    def get_id(self) -> Optional[Id]:
         return self._id
 
     def email_address(self) -> UserEmailAddress:
