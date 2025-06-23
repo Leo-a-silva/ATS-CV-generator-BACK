@@ -30,11 +30,11 @@ class TestUserCreation:
     def test_creates_user_and_returns_201_ok(self):
         request_data = {
             "email_address": "test@example.com",
-            "password": "secure_password123",
+            "password": "Secure_password123",
         }
 
-        response = client.post("/api/cvs/", json=request_data)
-        assert response.status_code == 200
+        response = client.post("/api/users/register", json=request_data)
+        assert response.status_code == 201
         data = response.json()
         assert data["email_address"] == request_data["email_address"]
         assert "user_id" in data
@@ -42,8 +42,8 @@ class TestUserCreation:
 
     def test_register_user_with_existing_email(self):
         request_data = {
-            "email": "existing@example.com",
-            "password": "secure_password123",
+            "email_address": "existing@example.com",
+            "password": "Secure_password123",
         }
 
         # Create first user
@@ -57,7 +57,10 @@ class TestUserCreation:
 
 
 def test_register_user_with_invalid_email(client: TestClient):
-    request_data = {"email": "invalid-email", "password": "secure_password123"}
+    request_data = {
+        "email_address": "invalid-email",
+        "password": "Secure_password123",
+    }
 
     response = client.post("/api/users/register", json=request_data)
 
