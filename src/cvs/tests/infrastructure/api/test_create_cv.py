@@ -36,7 +36,7 @@ class TestCvCreation:
             "password": "Secure_password123",
         }
 
-        user_response = client.post("/api/users/register/", json=request_data)
+        client.post("/api/users/register/", json=request_data)
 
         # Create CV
         cv_input = {
