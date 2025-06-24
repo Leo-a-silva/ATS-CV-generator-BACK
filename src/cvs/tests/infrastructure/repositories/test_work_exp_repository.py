@@ -19,6 +19,7 @@ class TestSQLModelWorkExperiencesRepository:
         SQLModel.metadata.drop_all(engine)
 
     def test_saves_work_experience_to_database(self) -> None:
+        # Fake user and cv
         with Session(engine) as session:
             user = UserModel(
                 email_address="alex@example.com",
