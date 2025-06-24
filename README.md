@@ -121,6 +121,34 @@ Schema
   "end_date": "2025-06-24"
 }
 ```
+
+### Create new Education
+
+```http
+  POST /api/cvs/education/
+```
+
+Request body
+```json
+{
+  "title": "string",
+  "institution": "string",
+  "start_date": "2025-06-24",
+  "end_date": "2025-06-24",
+  "cv_id": 0
+}
+```
+
+201 Successful Response | Example Value
+Schema
+```json
+{
+  "title": "string",
+  "institution": "string",
+  "start_date": "2025-06-24",
+  "end_date": "2025-06-24"
+}
+```
 ## Run Locally
 
 Clone the project
