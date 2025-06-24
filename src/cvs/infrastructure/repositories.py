@@ -178,22 +178,28 @@ class SQLModelCvsRepository(CvsRepository):
 
 class SQLModelWorkExperiencesRepository(WorkExperiencesRepository):
     def all_by_cv_id(self, cv_id: Id) -> list[WorkExperience]:
-        with Session(engine) as session:
-            work_experiences = session.exec(select(WorkExperienceModel)).filter(
-                cv_id=cv_id
-            )
+        primitive_cv_id = cv_id.value if hasattr(cv_id, "value") else cv_id
 
-            return [
-                WorkExperienceModel(
-                    id=work_experience.id,
-                    role=work_experience.role,
-                    company_name=work_experience.company_name,
-                    summary=work_experience.summary,
-                    start_date=work_experience.start_date,
-                    end_date=work_experience.end_date,
+        with Session(engine) as session:
+            stmt = select(WorkExperienceModel).where(
+                WorkExperienceModel.cv_id == primitive_cv_id
+            )
+            result = session.exec(stmt)
+            models: list[WorkExperienceModel] = result.all()
+
+            domain_objs: list[WorkExperience] = []
+            for model in models:
+                domain_obj = WorkExperience(
+                    cv_id=model.cv_id,
+                    role=model.role,
+                    company_name=model.company_name,
+                    summary=model.summary,
+                    start_date=model.start_date,
+                    end_date=model.end_date,
                 )
-                for work_experience in work_experiences
-            ]
+                domain_objs.append(domain_obj)
+
+            return domain_objs
 
     def save(self, work_experience: WorkExperience) -> None:
         work_experience_model = WorkExperienceModel(

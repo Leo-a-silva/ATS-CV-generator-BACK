@@ -65,3 +65,59 @@ class TestSQLModelWorkExperiencesRepository:
             statement = select(WorkExperienceModel)
             work_experience = session.exec(statement).first()
             assert work_experience.company_name == "Share IT"
+
+    def test_get_work_experiences_from_db(self) -> None:
+        with Session(engine) as session:
+            user = UserModel(
+                email_address="alex@example.com",
+                hashed_password="FAKEHASHEDPASSWORD12345!",
+                created_at=datetime.now(),
+                updated_at=datetime.now(),
+            )
+
+            cv = CvModel(
+                id=1,
+                user_id=1,
+                first_name="Alex",
+                last_name="Caniggia",
+                email_address="alex@example.com",
+                phone_number="+543434589536",
+                linkedin_url="https://linkedin.com/",
+                portfolio_url="https://ats.com/",
+                country="ARG",
+                city="Buenos Aires",
+                summary="Star",
+                created_at=datetime.now(),
+                updated_at=datetime.now(),
+            )
+            session.add(user)
+            session.commit()
+            session.add(cv)
+            session.commit()
+
+            session.add(
+                WorkExperienceModel(
+                    cv_id=1,
+                    role="Dev Ops",
+                    company_name="Share IT",
+                    summary="Design and implemented CI/CD Pipelines.",
+                    start_date="2023-06-24",
+                    end_date="2024-06-24",
+                )
+            )
+            session.add(
+                WorkExperienceModel(
+                    cv_id=1,
+                    role="Software Developer",
+                    company_name="Share IT",
+                    summary="Designed and implemented a REST API to generate ATS-proof CVs.",
+                    start_date="2024-06-24",
+                    end_date="2025-06-24",
+                )
+            )
+            session.commit()
+
+        work_experiences = SQLModelWorkExperiencesRepository().all_by_cv_id(cv_id=1)
+
+        assert len(work_experiences) == 2
+        assert work_experiences[0].role() == "Dev Ops"
