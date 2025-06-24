@@ -2,8 +2,16 @@ from fastapi import APIRouter, HTTPException, status
 
 from cvs.application.create_cv import CreateCv, CreateCvCommand
 from src.cvs.domain.exceptions import InvalidPhoneNumberException, InvalidUrlException
-from src.cvs.infrastructure.schemas import CvCreate, CvResponse
-from cvs.infrastructure.repositories import SQLModelCvsRepository
+from src.cvs.infrastructure.schemas import (
+    CvCreate,
+    CvResponse,
+    WorkExperienceCreate,
+    WorkExperienceResponse,
+)
+from cvs.infrastructure.repositories import (
+    SQLModelCvsRepository,
+    SQLModelWorkExperiencesRepository,
+)
 from src.shared.domain.exceptions import InvalidEmailAddressException
 from src.users.domain.exceptions import UserDoesNotExist
 from src.users.infrastructure.repositories import SQLModelUsersRepository
@@ -70,3 +78,14 @@ def create_cv(payload: CvCreate):
         raise HTTPException(
             status_code=status.HTTP_422_UNPROCESSABLE_ENTITY, detail=str(e)
         )
+
+
+@router.post(
+    "/cvs/work-experience/",
+    response_model=WorkExperienceResponse,
+    status_code=status.HTTP_201_CREATED,
+)
+def create_work_experience(payload: WorkExperienceCreate):
+    we_repository = SQLModelWorkExperiencesRepository()
+
+    pass

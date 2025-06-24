@@ -1,3 +1,5 @@
+from datetime import date
+from re import S
 from pydantic import BaseModel
 
 from cvs.domain.models import Cv
@@ -31,3 +33,19 @@ class CvResponse(CvBase):
     country: str
     city: str
     summary: str
+
+
+class WorkExperienceBase(BaseModel):
+    role: str
+    company_name: str
+    summary: str
+    start_date: date
+    end_date: date
+
+
+class WorkExperienceCreate(WorkExperienceBase):
+    cv_id: int
+
+
+class WorkExperienceResponse(WorkExperienceBase):
+    pass

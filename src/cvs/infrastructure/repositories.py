@@ -113,6 +113,11 @@ class SQLModelCvsRepository(CvsRepository):
         else:
             return self._update_cv(cv)
 
+    def exists_by_id(self, id: Id) -> bool:
+        statement = select(CvModel).where(CvModel.id == id.value)
+        with Session(engine) as session:
+            return session.exec(statement).first() is not None
+
     def _create_cv(self, cv: Cv) -> Cv:
         cv_model = CvModel(
             user_id=cv.user_id(),

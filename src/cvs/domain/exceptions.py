@@ -17,3 +17,9 @@ class InvalidDateException(Exception):
     ):
         self.message = message
         super().__init__(self.message)
+
+
+class CVDoesNotExist(Exception):
+    def __init__(self, message="CV does not exists"):
+        self.message = message
+        super().__init__(self.message)

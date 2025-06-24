@@ -2,7 +2,6 @@ from dataclasses import dataclass
 from cvs.domain.repositories import CvsRepository
 from cvs.domain.models import Cv
 from cvs.domain.value_objects import CvEmailAddress, CvPhoneNumber, CvURL
-from src.cvs.infrastructure.schemas import CvResponse
 from src.shared.domain.value_objects import Id
 from src.users.domain.exceptions import UserDoesNotExist
 from src.users.domain.repositories import UsersRepository

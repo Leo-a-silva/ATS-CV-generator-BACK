@@ -177,11 +177,11 @@ class WorkExperience:
     def company_name(self) -> str:
         return self._company_name
 
+    def summary(self) -> str:
+        return self._summary
+
     def start_date(self) -> DateObject:
         return self._start_date
 
     def end_date(self) -> DateObject:
         return self._end_date
-
-    def summary(self) -> str:
-        return self._summary

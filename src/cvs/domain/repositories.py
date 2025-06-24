@@ -12,6 +12,9 @@ class CvsRepository(ABC):
     @abstractmethod
     def save(self, cv: Cv) -> None: ...
 
+    @abstractmethod
+    def exists_by_id(self, id: Id) -> bool: ...
+
 
 class WorkExperiencesRepository(ABC):
     @abstractmethod
