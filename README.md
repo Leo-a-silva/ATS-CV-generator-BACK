@@ -15,7 +15,7 @@ API for generating ATS proof resumes
 
 ## API Reference
 
-#### Check health
+### Check health
 
 ```http
   GET /api/health/
@@ -28,7 +28,31 @@ API for generating ATS proof resumes
 }
 ```
 
-#### Create new CV
+### Register new User
+
+```http
+  POST /api/users/register/
+```
+
+Request body
+```json
+{
+  "email_address": "user@example.com",
+  "password": "string"
+}
+```
+
+201 Successful Response | Example Value
+Schema
+```json
+{
+  "user_id": 0,
+  "email_address": "string",
+  "created_at": "2025-06-24T17:27:04.153Z"
+}
+```
+
+### Create new CV
 
 ```http
   POST /api/cvs/
@@ -50,7 +74,7 @@ Request body
 }
 ```
 
-200 Successful Response | Example Value
+201 Successful Response | Example Value
 Schema
 ```json
 {
@@ -62,7 +86,39 @@ Schema
   "portfolio_url": "string",
   "country": "string",
   "city": "string",
-  "summary": "string"
+  "summary": "string",
+  "cv_id": 0,
+  "user_id": 0
+}
+```
+
+### Create new Work Experience
+
+```http
+  POST /api/cvs/work-experience/
+```
+
+Request body
+```json
+{
+  "role": "string",
+  "company_name": "string",
+  "summary": "string",
+  "start_date": "2025-06-24",
+  "end_date": "2025-06-24",
+  "cv_id": 0
+}
+```
+
+201 Successful Response | Example Value
+Schema
+```json
+{
+  "role": "string",
+  "company_name": "string",
+  "summary": "string",
+  "start_date": "2025-06-24",
+  "end_date": "2025-06-24"
 }
 ```
 ## Run Locally
@@ -112,6 +168,7 @@ pip install -r requirements.txt
 
 Run tests
 ```bash
+  cd src
   python -m pytest
 ```
 
