@@ -13,9 +13,6 @@ class Id:
         if self.value <= 0:
             raise ValueError("Id must be positive")
 
-    def __str__(self) -> str:
-        return str(self.value)
-
     def __eq__(self, other) -> bool:
         if isinstance(other, Id):
             return self.value == other.value

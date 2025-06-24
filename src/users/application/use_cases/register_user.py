@@ -1,5 +1,5 @@
 from dataclasses import dataclass
-from datetime import datetime
+import datetime
 
 from ...domain.models import User
 from ...domain.repositories import UsersRepository

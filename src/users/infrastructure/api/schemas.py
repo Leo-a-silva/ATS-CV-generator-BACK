@@ -7,7 +7,7 @@ class RegisterUserRequest(BaseModel):
     password: str
 
 
-class RegisterUserResponse(BaseModel):
+class UserResponse(BaseModel):
     user_id: int
     email_address: str
     created_at: datetime

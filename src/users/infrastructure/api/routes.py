@@ -7,7 +7,7 @@ from src.users.application.use_cases.register_user import (
 from src.users.domain.exceptions import UserAlreadyExistsException
 from src.users.infrastructure.api.schemas import (
     RegisterUserRequest,
-    RegisterUserResponse,
+    UserResponse,
 )
 from src.users.infrastructure.repositories import SQLModelUsersRepository
 from src.users.infrastructure.services import BcryptPasswordHashingService
@@ -17,28 +17,28 @@ router = APIRouter(prefix="/users")
 
 @router.post(
     "/register/",
-    response_model=RegisterUserResponse,
+    response_model=UserResponse,
     status_code=status.HTTP_201_CREATED,
 )
 def register_user(
     payload: RegisterUserRequest,
-) -> RegisterUserResponse:
+) -> UserResponse:
     try:
         users_repository = SQLModelUsersRepository()
         password_service = BcryptPasswordHashingService()
         use_case = RegisterUserUseCase(users_repository, password_service)
 
-        response = use_case.execute(
+        user = use_case.execute(
             RegisterUserCommand(
                 email_address=payload.email_address,
                 password=payload.password,
             )
         )
 
-        return RegisterUserResponse(
-            user_id=response.user_id,
-            email_address=response.email_address,
-            created_at=response.created_at,
+        return UserResponse(
+            user_id=user.user_id,
+            email_address=user.email_address,
+            created_at=user.created_at,
         )
 
     except UserAlreadyExistsException as e:

@@ -2,6 +2,7 @@ from dataclasses import dataclass
 from cvs.domain.repositories import CvsRepository
 from cvs.domain.models import Cv
 from cvs.domain.value_objects import CvEmailAddress, CvPhoneNumber, CvURL
+from src.cvs.infrastructure.schemas import CvResponse
 from src.shared.domain.value_objects import Id
 from src.users.domain.exceptions import UserDoesNotExist
 from src.users.domain.repositories import UsersRepository
@@ -9,6 +10,21 @@ from src.users.domain.repositories import UsersRepository
 
 @dataclass
 class CreateCvCommand:
+    user_id: int
+    first_name: str
+    last_name: str
+    email_address: str
+    phone_number: str
+    linkedin_url: str
+    portfolio_url: str
+    country: str
+    city: str
+    summary: str
+
+
+@dataclass
+class CreateCvResponse:
+    cv_id: int
     user_id: int
     first_name: str
     last_name: str
@@ -55,5 +71,18 @@ class CreateCv:
             summary=command.summary,
         )
 
-        self._cv_repository.save(cv)
-        return cv
+        saved_cv = self._cv_repository.save(cv)
+
+        return CreateCvResponse(
+            cv_id=saved_cv.get_id().value,
+            user_id=saved_cv.user_id(),
+            first_name=saved_cv.first_name(),
+            last_name=saved_cv.last_name(),
+            email_address=saved_cv.email_address().value,
+            phone_number=saved_cv.phone_number().value,
+            linkedin_url=saved_cv.linkedin_url().value,
+            portfolio_url=saved_cv.portfolio_url().value,
+            country=saved_cv.country(),
+            city=saved_cv.city(),
+            summary=saved_cv.summary(),
+        )

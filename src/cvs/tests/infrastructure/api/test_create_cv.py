@@ -62,6 +62,8 @@ class TestCvCreation:
             "country": "ARG",
             "city": "Buenos Aires",
             "summary": "Star",
+            "cv_id": 1,
+            "user_id": 1,
         }
 
         response = client.post("/api/cvs/", json=cv_input)

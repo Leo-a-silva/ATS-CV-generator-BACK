@@ -1,4 +1,6 @@
+from typing import Optional
 from cvs.domain.value_objects import CvEmailAddress, CvPhoneNumber, CvURL, DateObject
+from src.shared.domain.value_objects import Id
 
 
 class Cv:
@@ -14,7 +16,9 @@ class Cv:
         country: str,
         city: str,
         summary: str,
+        id: Optional[Id] = None,
     ):
+        self._id = id
         self._user_id = user_id
         self._first_name = first_name
         self._last_name = last_name
@@ -53,6 +57,38 @@ class Cv:
             summary,
         )
 
+    @classmethod
+    def from_persistence(
+        cls,
+        id: Id,
+        user_id: int,
+        first_name: str,
+        last_name: str,
+        email_address: CvEmailAddress,
+        phone_number: CvPhoneNumber,
+        linkedin_url: CvURL,
+        portfolio_url: CvURL,
+        country: str,
+        city: str,
+        summary: str,
+    ) -> "Cv":
+        return cls(
+            id=id,
+            user_id=user_id,
+            first_name=first_name,
+            last_name=last_name,
+            email_address=email_address,
+            phone_number=phone_number,
+            linkedin_url=linkedin_url,
+            portfolio_url=portfolio_url,
+            country=country,
+            city=city,
+            summary=summary,
+        )
+
+    def get_id(self) -> Optional[Id]:
+        return self._id
+
     def user_id(self) -> int:
         return self._user_id
 
@@ -82,6 +118,18 @@ class Cv:
 
     def summary(self) -> str:
         return self._summary
+
+    def is_persisted(self) -> bool:
+        return self._id is not None
+
+    def _assign_id(self, cv_id: Id) -> None:
+        """
+        Internal method for assigning IDs when persisting.
+        It should only be called from the repository.
+        """
+        if self._id is not None:
+            raise ValueError("Cannot reassign ID to an already persisted cv")
+        self._id = cv_id
 
 
 class WorkExperience:

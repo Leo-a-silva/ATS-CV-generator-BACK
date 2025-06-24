@@ -37,7 +37,19 @@ def create_cv(payload: CvCreate):
                 summary=payload.summary,
             )
         )
-        return CvResponse.from_domain(cv)
+        return CvResponse(
+            cv_id=cv.cv_id,
+            user_id=cv.user_id,
+            first_name=cv.first_name,
+            last_name=cv.last_name,
+            email_address=cv.email_address,
+            phone_number=cv.phone_number,
+            linkedin_url=cv.linkedin_url,
+            portfolio_url=cv.portfolio_url,
+            country=cv.country,
+            city=cv.city,
+            summary=cv.summary,
+        )
 
     except UserDoesNotExist as e:
         raise HTTPException(
