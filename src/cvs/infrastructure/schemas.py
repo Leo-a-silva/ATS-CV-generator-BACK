@@ -49,3 +49,18 @@ class WorkExperienceCreate(WorkExperienceBase):
 
 class WorkExperienceResponse(WorkExperienceBase):
     pass
+
+
+class EducationBase(BaseModel):
+    title: str
+    institution: str
+    start_date: date
+    end_date: date
+
+
+class EducationCreate(EducationBase):
+    cv_id: int
+
+
+class EducationResponse(EducationBase):
+    pass

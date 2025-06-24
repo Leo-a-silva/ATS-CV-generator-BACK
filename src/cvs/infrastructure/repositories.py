@@ -5,8 +5,12 @@ from sqlmodel import Field, Relationship, SQLModel, Session, select
 from src.cvs.domain.value_objects import CvEmailAddress, CvPhoneNumber, CvURL
 from src.shared.domain.value_objects import Id
 
-from ..domain.repositories import CvsRepository, WorkExperiencesRepository
-from ..domain.models import Cv, WorkExperience
+from ..domain.repositories import (
+    CvsRepository,
+    EducationsRepository,
+    WorkExperiencesRepository,
+)
+from ..domain.models import Cv, Education, WorkExperience
 
 from shared.infrastructure.db_conf import engine
 
@@ -219,3 +223,39 @@ class SQLModelWorkExperiencesRepository(WorkExperiencesRepository):
             session.add(work_experience_model)
             session.commit()
             session.refresh(work_experience_model)
+
+
+class SQLModelEducationsRepository(EducationsRepository):
+    def all_by_cv_id(self, cv_id: Id) -> list[Education]:
+        primitive_cv_id = cv_id.value if hasattr(cv_id, "value") else cv_id
+
+        with Session(engine) as session:
+            stmt = select(EducationModel).where(EducationModel.cv_id == primitive_cv_id)
+            result = session.exec(stmt)
+            models: list[EducationModel] = result.all()
+
+            domain_objs: list[Education] = []
+            for model in models:
+                domain_obj = Education(
+                    cv_id=model.cv_id,
+                    title=model.title,
+                    institution=model.institution,
+                    start_date=model.start_date,
+                    end_date=model.end_date,
+                )
+                domain_objs.append(domain_obj)
+
+            return domain_objs
+
+    def save(self, education: Education) -> None:
+        education_model = EducationModel(
+            cv_id=education.cv_id(),
+            title=education.title(),
+            institution=education.institution(),
+            start_date=education.start_date(),
+            end_date=education.end_date(),
+        )
+        with Session(engine) as session:
+            session.add(education_model)
+            session.commit()
+            session.refresh(education_model)

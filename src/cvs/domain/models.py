@@ -1,4 +1,5 @@
 from typing import Optional
+
 from cvs.domain.value_objects import CvEmailAddress, CvPhoneNumber, CvURL, DateObject
 from src.shared.domain.value_objects import Id
 
@@ -179,6 +180,54 @@ class WorkExperience:
 
     def summary(self) -> str:
         return self._summary
+
+    def start_date(self) -> DateObject:
+        return self._start_date
+
+    def end_date(self) -> DateObject:
+        return self._end_date
+
+
+class Education:
+    def __init__(
+        self,
+        cv_id: int,
+        title: str,
+        institution: str,
+        start_date: DateObject,
+        end_date: DateObject,
+    ):
+        self._cv_id = cv_id
+        self._title = title
+        self._institution = institution
+        self._start_date = start_date
+        self._end_date = end_date
+
+    @classmethod
+    def create(
+        cls,
+        cv_id: int,
+        title: str,
+        institution: str,
+        start_date: DateObject,
+        end_date: DateObject,
+    ) -> "Education":
+        return cls(
+            cv_id,
+            title,
+            institution,
+            start_date,
+            end_date,
+        )
+
+    def cv_id(self) -> int:
+        return self._cv_id
+
+    def title(self) -> str:
+        return self._title
+
+    def institution(self) -> str:
+        return self._institution
 
     def start_date(self) -> DateObject:
         return self._start_date
