@@ -1,7 +1,9 @@
 from datetime import datetime
 from typing import Optional
 
-from .value_objects import UserEmailAddress, HashedPassword, Id
+from src.shared.domain.value_objects import Id
+
+from .value_objects import UserEmailAddress, HashedPassword
 
 
 class User:

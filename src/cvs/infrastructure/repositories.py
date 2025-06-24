@@ -1,8 +1,10 @@
-from datetime import datetime
+from datetime import date, datetime
 from sqlmodel import Field, SQLModel, Session, select
 
-from ..domain.repositories import CvsRepository
-from ..domain.models import Cv
+from src.shared.domain.value_objects import Id
+
+from ..domain.repositories import CvsRepository, WorkExperiencesRepository
+from ..domain.models import Cv, WorkExperience
 
 from shared.infrastructure.db_conf import engine
 
@@ -66,3 +68,77 @@ class SQLModelCvsRepository(CvsRepository):
         with Session(engine) as session:
             session.add(cv_model)
             session.commit()
+
+
+class WorkExperienceModel(SQLModel, table=True):
+    __tablename__ = "work_experiences"
+
+    id: int | None = Field(default=None, primary_key=True)
+    cv_id: int | None = Field(default=None, foreign_key="cvs.id")
+    role: str = Field(..., max_length=80)
+    company_name: str = Field(..., max_length=100)
+    summary: str = Field(..., max_length=100)
+    start_date: date
+    end_date: date
+
+
+class SQLModelWorkExperiencesRepository(WorkExperiencesRepository):
+    def all_by_cv_id(self, cv_id: Id) -> list[WorkExperience]:
+        with Session(engine) as session:
+            work_experiences = session.exec(select(WorkExperienceModel)).filter(
+                cv_id=cv_id
+            )
+
+            return [
+                WorkExperienceModel(
+                    id=work_experience.id,
+                    role=work_experience.role,
+                    company_name=work_experience.company_name,
+                    summary=work_experience.summary,
+                    start_date=work_experience.start_date,
+                    end_date=work_experience.end_date,
+                )
+                for work_experience in work_experiences
+            ]
+
+    def save(self, work_experience: WorkExperience) -> None:
+        work_experience_model = WorkExperienceModel(
+            cv_id=work_experience.cv_id(),
+            role=work_experience.role(),
+            company_name=work_experience.company_name(),
+            summary=work_experience.summary(),
+            start_date=work_experience.start_date(),
+            end_date=work_experience.end_date(),
+        )
+        with Session(engine) as session:
+            session.add(work_experience_model)
+            session.commit()
+
+
+class EducationModel(SQLModel, table=True):
+    __tablename__ = "studies"
+
+    id: int | None = Field(default=None, primary_key=True)
+    cv_id: int | None = Field(default=None, foreign_key="cvs.id")
+    title: str = Field(..., max_length=80)
+    institution: str = Field(..., max_length=80)
+    start_date: date
+    end_date: date
+
+
+class CoursesModel(SQLModel, table=True):
+    __tablename__ = "courses"
+
+    id: int | None = Field(default=None, primary_key=True)
+    cv_id: int | None = Field(default=None, foreign_key="cvs.id")
+    title: str = Field(..., max_length=80)
+    institution: str = Field(..., max_length=80)
+    date: date
+
+
+class Skills(SQLModel, table=True):
+    __tablename__ = "skills"
+
+    id: int | None = Field(default=None, primary_key=True)
+    cv_id: int | None = Field(default=None, foreign_key="cvs.id")
+    title: str = Field(..., max_length=30)

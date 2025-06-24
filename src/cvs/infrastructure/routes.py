@@ -1,4 +1,3 @@
-import stat
 from fastapi import APIRouter, HTTPException, status
 
 from cvs.application.create_cv import CreateCv, CreateCvCommand

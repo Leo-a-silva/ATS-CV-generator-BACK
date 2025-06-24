@@ -1,7 +1,8 @@
 from abc import ABC, abstractmethod
 from typing import Optional
 
-from .value_objects import Id, UserEmailAddress
+from src.shared.domain.value_objects import Id
+from .value_objects import UserEmailAddress
 from .models import User
 
 

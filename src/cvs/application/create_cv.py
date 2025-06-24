@@ -1,11 +1,10 @@
 from dataclasses import dataclass
-from typing import Type
 from cvs.domain.repositories import CvsRepository
 from cvs.domain.models import Cv
 from cvs.domain.value_objects import CvEmailAddress, CvPhoneNumber, CvURL
+from src.shared.domain.value_objects import Id
 from src.users.domain.exceptions import UserDoesNotExist
 from src.users.domain.repositories import UsersRepository
-from src.users.domain.value_objects import Id
 
 
 @dataclass

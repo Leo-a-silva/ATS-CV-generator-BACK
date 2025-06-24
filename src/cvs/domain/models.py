@@ -1,4 +1,4 @@
-from cvs.domain.value_objects import CvEmailAddress, CvPhoneNumber, CvURL
+from cvs.domain.value_objects import CvEmailAddress, CvPhoneNumber, CvURL, DateObject
 
 
 class Cv:
@@ -53,7 +53,6 @@ class Cv:
             summary,
         )
 
-    # Métodos para acceder a los atributos
     def user_id(self) -> int:
         return self._user_id
 
@@ -80,6 +79,61 @@ class Cv:
 
     def city(self) -> str:
         return self._city
+
+    def summary(self) -> str:
+        return self._summary
+
+
+class WorkExperience:
+    def __init__(
+        self,
+        cv_id: int,
+        role: str,
+        company_name: str,
+        summary: str,
+        start_date: DateObject,
+        end_date: DateObject,
+    ):
+        self._cv_id = cv_id
+        self._role = role
+        self._company_name = company_name
+        self._summary = summary
+        self._start_date = start_date
+        self._end_date = end_date
+
+    @classmethod
+    def create(
+        cls,
+        cv_id: int,
+        role: str,
+        company_name: str,
+        summary: str,
+        start_date: DateObject,
+        end_date: DateObject,
+    ) -> "Cv":
+        return cls(
+            cv_id,
+            role,
+            company_name,
+            summary,
+            start_date,
+            end_date,
+        )
+
+    def cv_id(self) -> int:
+        return self._cv_id
+
+    def role(self) -> str:
+        return self._role
+
+    def company_name(self) -> str:
+        return self._company_name
+
+    def start_date(self) -> DateObject:
+        return self._start_date
+
+    def end_date(self) -> DateObject:
+        return self._end_date
 
     def summary(self) -> str:
         return self._summary

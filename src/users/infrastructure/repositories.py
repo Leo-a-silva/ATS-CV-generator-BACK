@@ -2,12 +2,13 @@ from datetime import datetime
 from typing import Optional
 from sqlmodel import Field, SQLModel, select, Session
 
-from ..domain.value_objects import HashedPassword, Id, UserEmailAddress
+from ..domain.value_objects import HashedPassword, UserEmailAddress
 
 from ..domain.repositories import UsersRepository
 from ..domain.models import User
 
 from shared.infrastructure.db_conf import engine
+from shared.domain.value_objects import Id
 
 
 class UserModel(SQLModel, table=True):
