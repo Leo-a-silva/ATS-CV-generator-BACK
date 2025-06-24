@@ -1,16 +1,16 @@
-from cvs.application.create_work_experience import CreateWorkExperience, CreateWECommand
+from src.cvs.application.create_education import CreateEducation, CreateEducationCommand
 from src.cvs.tests.application.fake_repositories import (
     FakeCvRepository,
+    FakeEducationRepository,
     FakeUsersRepository,
-    FakeWorkExperienceRepository,
 )
 
 
-class TestCreateWorkExperience:
-    def test_creates_work_experience_with_all_fields(self) -> None:
+class TestCreateEducation:
+    def test_creates_education_with_all_fields(self) -> None:
         cv_repository = FakeCvRepository()
         users_repository = FakeUsersRepository()
-        work_experience_repository = FakeWorkExperienceRepository()
+        education_repository = FakeEducationRepository()
 
         new_user = {
             "id": 1,
@@ -36,29 +36,27 @@ class TestCreateWorkExperience:
         }
         cv_repository.save(new_cv)
 
-        CreateWorkExperience(work_experience_repository, cv_repository).execute(
-            CreateWECommand(
+        CreateEducation(education_repository, cv_repository).execute(
+            CreateEducationCommand(
                 cv_id=1,
-                role="Software Developer",
-                company_name="Share IT",
-                summary="Designed and implemented a REST API to generate ATS-proof CVs.",
-                start_date="2024-06-24",
-                end_date="2024-06-24",
+                title="CS Degree",
+                institution="Hardvard",
+                start_date="2018-06-24",
+                end_date="2023-06-24",
             )
         )
-        CreateWorkExperience(work_experience_repository, cv_repository).execute(
-            CreateWECommand(
+        CreateEducation(education_repository, cv_repository).execute(
+            CreateEducationCommand(
                 cv_id=1,
-                role="Dev Ops",
-                company_name="Share IT",
-                summary="Design and implemented CI/CD Pipelines.",
+                title="ML Engineering",
+                institution="Oxford",
                 start_date="2023-06-24",
                 end_date="2024-06-24",
             )
         )
 
-        work_experiences = work_experience_repository.all_by_cv_id(id=1)
-        assert len(work_experiences) == 2
-        we = work_experiences[0]
-        assert we.role() == "Software Developer"
+        educations = education_repository.all_by_cv_id(id=1)
+        assert len(educations) == 2
+        we = educations[0]
+        assert we.title() == "CS Degree"
         assert we.cv_id() == 1

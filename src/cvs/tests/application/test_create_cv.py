@@ -1,51 +1,15 @@
-from typing import Optional
 from cvs.application.create_cv import CreateCv, CreateCvCommand
-from cvs.domain.repositories import CvsRepository
-from cvs.domain.models import Cv
 from cvs.domain.exceptions import (
     InvalidPhoneNumberException,
     InvalidUrlException,
 )
 from cvs.domain.value_objects import CvEmailAddress, CvPhoneNumber, CvURL
 from shared.domain.exceptions import InvalidEmailAddressException
+from src.cvs.tests.application.fake_repositories import (
+    FakeCvRepository,
+    FakeUsersRepository,
+)
 from src.users.domain.exceptions import UserDoesNotExist
-from src.users.domain.models import User
-from src.users.domain.repositories import UsersRepository
-from src.users.domain.value_objects import Id, UserEmailAddress
-
-
-class FakeCvRepository(CvsRepository):
-    def __init__(self):
-        self._cvs = []
-
-    def save(self, cv: Cv) -> None:
-        self._cvs.append(cv)
-
-    def all(self) -> list[Cv]:
-        return list(self._cvs)
-
-
-class FakeUsersRepository(UsersRepository):
-    def __init__(self):
-        self._users = []
-
-    def all(self) -> list[User]:
-        return list(self._users)
-
-    def save(self, user: User) -> None:
-        self._users.append(user)
-
-    def exists_by_id(self, id: Id) -> bool:
-        return any(user["id"] == id for user in self._users)
-
-    def find_by_id(self, user_id: int) -> Optional[User]:
-        pass
-
-    def find_by_email(self, email: UserEmailAddress) -> Optional[User]:
-        pass
-
-    def exists_by_email(self, email: UserEmailAddress) -> bool:
-        pass
 
 
 class TestCreateCv:
