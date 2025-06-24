@@ -29,17 +29,17 @@ class TestCvCreation:
         yield
         SQLModel.metadata.drop_all(engine)
 
-    def test_creates_cv_and_returns_200_ok(self):
+    def test_creates_education_and_returns_200_ok(self):
         # Create fake user
-        request_data = {
+        request_user_data = {
             "email_address": "test@example.com",
             "password": "Secure_password123",
         }
 
-        client.post("/api/users/register/", json=request_data)
+        client.post("/api/users/register/", json=request_user_data)
 
-        # Create CV
-        cv_input = {
+        # Create fake cv
+        request_cv_data = {
             "user_id": 1,
             "first_name": "Alex",
             "last_name": "Caniggia",
@@ -52,20 +52,24 @@ class TestCvCreation:
             "summary": "Star",
         }
 
-        res = {
-            "first_name": "Alex",
-            "last_name": "Caniggia",
-            "email_address": "alex.caniggia@example.com",
-            "phone_number": "+543434586789",
-            "linkedin_url": "https://linkedin.com/",
-            "portfolio_url": "https://ats.com/",
-            "country": "ARG",
-            "city": "Buenos Aires",
-            "summary": "Star",
+        client.post("/api/cvs/create/", json=request_cv_data)
+
+        # Create Education
+        request_education_data = {
             "cv_id": 1,
-            "user_id": 1,
+            "title": "CS Degree",
+            "institution": "Hardvard",
+            "start_date": "2018-06-24",
+            "end_date": "2023-06-24",
         }
 
-        response = client.post("/api/cvs/", json=cv_input)
-        assert response.json() == res
+        success_response = {
+            "title": "CS Degree",
+            "institution": "Hardvard",
+            "start_date": "2018-06-24",
+            "end_date": "2023-06-24",
+        }
+
+        response = client.post("/api/cvs/education/", json=request_education_data)
+        assert response.json() == success_response
         assert response.status_code == 201

@@ -1,8 +1,5 @@
 from datetime import date
-from re import S
 from pydantic import BaseModel
-
-from cvs.domain.models import Cv
 
 
 class CvBase(BaseModel):

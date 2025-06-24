@@ -12,7 +12,7 @@ from src.users.infrastructure.api.schemas import (
 from src.users.infrastructure.repositories import SQLModelUsersRepository
 from src.users.infrastructure.services import BcryptPasswordHashingService
 
-router = APIRouter(prefix="/users")
+router = APIRouter(prefix="/users", tags=["Users"])
 
 
 @router.post(

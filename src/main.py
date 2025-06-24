@@ -3,7 +3,7 @@ from fastapi import FastAPI, Request, status
 from fastapi.responses import JSONResponse
 from sqlmodel import SQLModel
 from shared.infrastructure.api import router as shared_router
-from src.cvs.infrastructure.routes import router as cvs_router
+from src.cvs.infrastructure.api.router import router as cvs_router
 from src.shared.domain.exceptions import InvalidEmailAddressException
 from users.infrastructure.api.routes import router as users_router
 from shared.infrastructure.logger_conf import logger
@@ -37,5 +37,5 @@ async def invalid_email_exception_handler(
 
 
 app.include_router(shared_router, prefix="/api")
-app.include_router(cvs_router, prefix="/api", tags=["CVs"])
-app.include_router(users_router, prefix="/api", tags=["Users"])
+app.include_router(cvs_router, prefix="/api")
+app.include_router(users_router, prefix="/api")

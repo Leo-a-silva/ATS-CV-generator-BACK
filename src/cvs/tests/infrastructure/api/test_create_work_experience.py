@@ -7,7 +7,7 @@ from shared.infrastructure.db_conf import engine
 
 
 def create_test_app():
-    from src.cvs.infrastructure.routes import router as cvs_router
+    from src.cvs.infrastructure.api.router import router as cvs_router
     from src.users.infrastructure.api.routes import router as users_router
 
     app = FastAPI()
@@ -29,7 +29,7 @@ class TestCvCreation:
         yield
         SQLModel.metadata.drop_all(engine)
 
-    def test_creates_cv_and_returns_200_ok(self):
+    def test_creates_work_education_and_returns_200_ok(self):
         # Create fake user
         request_user_data = {
             "email_address": "test@example.com",
