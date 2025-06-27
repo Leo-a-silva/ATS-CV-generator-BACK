@@ -100,26 +100,30 @@ Schema
 
 Request body
 ```json
-{
-  "role": "string",
-  "company_name": "string",
-  "summary": "string",
-  "start_date": "2025-06-24",
-  "end_date": "2025-06-24",
-  "cv_id": 0
-}
+[
+  {
+    "role": "string",
+    "company_name": "string",
+    "summary": "string",
+    "start_date": "2025-06-24",
+    "end_date": "2025-06-24",
+    "cv_id": 0
+  },
+]
 ```
 
 201 Successful Response | Example Value
 Schema
 ```json
-{
-  "role": "string",
-  "company_name": "string",
-  "summary": "string",
-  "start_date": "2025-06-24",
-  "end_date": "2025-06-24"
-}
+[
+  {
+    "role": "string",
+    "company_name": "string",
+    "summary": "string",
+    "start_date": "2025-06-24",
+    "end_date": "2025-06-24"
+  },
+]
 ```
 
 ### Create new Education

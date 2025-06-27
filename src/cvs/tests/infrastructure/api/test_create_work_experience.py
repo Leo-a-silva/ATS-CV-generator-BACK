@@ -52,25 +52,29 @@ class TestCvCreation:
             "summary": "Star",
         }
 
-        client.post("/api/cvs/", json=request_cv_data)
+        client.post("/api/cvs/create/", json=request_cv_data)
 
         # Create Work Experience
-        request_we_data = {
-            "cv_id": 1,
-            "role": "Dev Ops",
-            "company_name": "Share IT",
-            "summary": "Design and implemented CI/CD Pipelines.",
-            "start_date": "2023-06-24",
-            "end_date": "2024-06-24",
-        }
+        request_we_data = [
+            {
+                "cv_id": 1,
+                "role": "Dev Ops",
+                "company_name": "Share IT",
+                "summary": "Design and implemented CI/CD Pipelines.",
+                "start_date": "2023-06-24",
+                "end_date": "2024-06-24",
+            }
+        ]
 
-        success_response = {
-            "role": "Dev Ops",
-            "company_name": "Share IT",
-            "summary": "Design and implemented CI/CD Pipelines.",
-            "start_date": "2023-06-24",
-            "end_date": "2024-06-24",
-        }
+        success_response = [
+            {
+                "role": "Dev Ops",
+                "company_name": "Share IT",
+                "summary": "Design and implemented CI/CD Pipelines.",
+                "start_date": "2023-06-24",
+                "end_date": "2024-06-24",
+            }
+        ]
 
         response = client.post("/api/cvs/work-experience", json=request_we_data)
         assert response.json() == success_response
