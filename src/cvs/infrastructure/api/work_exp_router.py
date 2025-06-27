@@ -3,7 +3,6 @@ from fastapi import HTTPException, status, APIRouter
 
 from src.cvs.application.create_work_experience import (
     CreateWECommand,
-    CreateWEResponse,
     CreateWorkExperience,
 )
 from src.cvs.domain.exceptions import (

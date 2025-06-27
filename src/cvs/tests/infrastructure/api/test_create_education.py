@@ -55,20 +55,24 @@ class TestCvCreation:
         client.post("/api/cvs/create/", json=request_cv_data)
 
         # Create Education
-        request_education_data = {
-            "cv_id": 1,
-            "title": "CS Degree",
-            "institution": "Hardvard",
-            "start_date": "2018-06-24",
-            "end_date": "2023-06-24",
-        }
+        request_education_data = [
+            {
+                "cv_id": 1,
+                "title": "CS Degree",
+                "institution": "Hardvard",
+                "start_date": "2018-06-24",
+                "end_date": "2023-06-24",
+            }
+        ]
 
-        success_response = {
-            "title": "CS Degree",
-            "institution": "Hardvard",
-            "start_date": "2018-06-24",
-            "end_date": "2023-06-24",
-        }
+        success_response = [
+            {
+                "title": "CS Degree",
+                "institution": "Hardvard",
+                "start_date": "2018-06-24",
+                "end_date": "2023-06-24",
+            }
+        ]
 
         response = client.post("/api/cvs/education/", json=request_education_data)
         assert response.json() == success_response
