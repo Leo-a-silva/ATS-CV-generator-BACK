@@ -4,7 +4,6 @@ from fastapi import HTTPException, status, APIRouter
 from src.cvs.application.create_education import (
     CreateEducation,
     CreateEducationCommand,
-    CreateEducationResponse,
 )
 from src.cvs.domain.exceptions import (
     CVDoesNotExist,
