@@ -17,7 +17,7 @@ class BcryptPasswordHashingService(PasswordHashingService):
         self, plain_password: PlainPassword, hashed_password: HashedPassword
     ) -> bool:
         return bcrypt.checkpw(
-            plain_password.value.encode("utf-8"), hashed_password.value.encode("utf-8")
+            plain_password.encode("utf-8"), hashed_password.value.encode("utf-8")
         )
 
 

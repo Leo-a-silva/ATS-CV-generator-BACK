@@ -14,3 +14,9 @@ class UserDoesNotExist(Exception):
     def __init__(self, message="User does not exists"):
         self.message = message
         super().__init__(self.message)
+
+
+class PasswordDoesNotMatch(Exception):
+    def __init__(self, message="The password that you've entered is incorrect."):
+        self.message = message
+        super().__init__(self.message)
