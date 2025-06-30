@@ -37,6 +37,8 @@ API for generating ATS proof resumes
 Request body
 ```json
 {
+  "first_name": "string",
+  "late_name": "string",
   "email_address": "user@example.com",
   "password": "string"
 }
@@ -47,8 +49,36 @@ Schema
 ```json
 {
   "user_id": 0,
+  "first_name": "string",
+  "late_name": "string",
   "email_address": "string",
   "created_at": "2025-06-24T17:27:04.153Z"
+}
+```
+
+### Login User
+
+```http
+  POST /api/users/login/
+```
+
+Request body
+```json
+{
+  "email_address": "user@example.com",
+  "password": "string"
+}
+```
+
+200 Successful Response | Example Value
+Schema
+```json
+{
+    "user_id": 1,
+    "first_name": "string",
+    "last_name": "string",
+    "email_address": "user@example.com",
+    "created_at": "string"
 }
 ```
 
