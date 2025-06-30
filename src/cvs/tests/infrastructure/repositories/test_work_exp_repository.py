@@ -22,7 +22,7 @@ class TestSQLModelWorkExperiencesRepository:
         # Fake user and cv
         with Session(engine) as session:
             user = UserModel(
-                email_address="alex@example.com",
+                email_address="steve.jobs@example.com",
                 hashed_password="FAKEHASHEDPASSWORD12345!",
                 created_at=datetime.now(),
                 updated_at=datetime.now(),
@@ -31,9 +31,9 @@ class TestSQLModelWorkExperiencesRepository:
             cv = CvModel(
                 id=1,
                 user_id=1,
-                first_name="Alex",
-                last_name="Caniggia",
-                email_address="alex@example.com",
+                first_name="Steve",
+                last_name="Jobs",
+                email_address="steve.jobs@example.com",
                 phone_number="+543434589536",
                 linkedin_url="https://linkedin.com/",
                 portfolio_url="https://ats.com/",
@@ -69,7 +69,7 @@ class TestSQLModelWorkExperiencesRepository:
     def test_get_work_experiences_from_db(self) -> None:
         with Session(engine) as session:
             user = UserModel(
-                email_address="alex@example.com",
+                email_address="steve.jobs@example.com",
                 hashed_password="FAKEHASHEDPASSWORD12345!",
                 created_at=datetime.now(),
                 updated_at=datetime.now(),
@@ -78,9 +78,9 @@ class TestSQLModelWorkExperiencesRepository:
             cv = CvModel(
                 id=1,
                 user_id=1,
-                first_name="Alex",
-                last_name="Caniggia",
-                email_address="alex@example.com",
+                first_name="Steve",
+                last_name="Jobs",
+                email_address="steve.jobs@example.com",
                 phone_number="+543434589536",
                 linkedin_url="https://linkedin.com/",
                 portfolio_url="https://ats.com/",

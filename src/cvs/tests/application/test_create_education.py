@@ -14,7 +14,7 @@ class TestCreateEducation:
 
         new_user = {
             "id": 1,
-            "email_address": "alex.caniggia@example.com",
+            "email_address": "steve.jobs@example.com",
             "hashed_password": "MyHashedPassword123",
             "created_at": "2025-06-23 16:45:48",
             "updated_at": "2025-06-23 16:45:48",
@@ -24,9 +24,9 @@ class TestCreateEducation:
         new_cv = {
             "id": 1,
             "user_id": 1,
-            "first_name": "Alex",
-            "last_name": "Caniggia",
-            "email_address": "alex.caniggia@example.com",
+            "first_name": "Steve",
+            "last_name": "Jobs",
+            "email_address": "steve.jobs@example.com",
             "phone_number": "+543434586789",
             "linkedin_url": "https://linkedin.com/",
             "portfolio_url": "https://ats.com/",

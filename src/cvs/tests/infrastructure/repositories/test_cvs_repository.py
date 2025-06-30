@@ -21,9 +21,9 @@ class TestSQLModelCvRepository:
         repo.save(
             Cv(
                 user_id=1,
-                first_name="Alex",
-                last_name="Caniggia",
-                email_address=CvEmailAddress(value="alex.caniggia@example.com"),
+                first_name="Steve",
+                last_name="Jobs",
+                email_address=CvEmailAddress(value="steve.jobs@example.com"),
                 phone_number=CvPhoneNumber(value="+543434586789"),
                 linkedin_url=CvURL(value="https://linkedin.com/"),
                 portfolio_url=CvURL(value="https://ats.com/"),
@@ -36,16 +36,16 @@ class TestSQLModelCvRepository:
         with Session(engine) as session:
             statement = select(CvModel)
             cv = session.exec(statement).first()
-            assert cv.first_name == "Alex"
+            assert cv.first_name == "Steve"
 
     def test_returns_all_cvs(self) -> None:
         with Session(engine) as session:
             session.add(
                 CvModel(
                     user_id=2,
-                    first_name="Marcelo",
-                    last_name="Tinelli",
-                    email_address="marcelo.tinelli@example.com",
+                    first_name="Linus",
+                    last_name="Torvalds",
+                    email_address="linus.torvalds@example.com",
                     phone_number="+543434586888",
                     linkedin_url="https://linkedin.com/",
                     portfolio_url="https://ats.com/",

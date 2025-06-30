@@ -19,7 +19,7 @@ class TestCreateCv:
 
         new_user = {
             "id": 1,
-            "email_address": "alex.caniggia@example.com",
+            "email_address": "steve.jobs@example.com",
             "hashed_password": "MyHashedPassword123",
             "created_at": "2025-06-23 16:45:48",
             "updated_at": "2025-06-23 16:45:48",
@@ -29,9 +29,9 @@ class TestCreateCv:
         CreateCv(cv_repository, users_repository).execute(
             CreateCvCommand(
                 user_id=1,
-                first_name="Alex",
-                last_name="Caniggia",
-                email_address="alex.caniggia@example.com",
+                first_name="Steve",
+                last_name="Jobs",
+                email_address="steve.jobs@example.com",
                 phone_number="+543434586789",
                 linkedin_url="https://linkedin.com/",
                 portfolio_url="https://ats.com/",
@@ -45,9 +45,9 @@ class TestCreateCv:
         assert len(cvs) == 1
         cv = cvs[0]
         assert cv.user_id() == 1
-        assert cv.first_name() == "Alex"
-        assert cv.last_name() == "Caniggia"
-        assert cv.email_address() == CvEmailAddress(value="alex.caniggia@example.com")
+        assert cv.first_name() == "Steve"
+        assert cv.last_name() == "Jobs"
+        assert cv.email_address() == CvEmailAddress(value="steve.jobs@example.com")
         assert cv.phone_number() == CvPhoneNumber(value="+543434586789")
         assert cv.linkedin_url() == CvURL(value="https://linkedin.com/")
         assert cv.portfolio_url() == CvURL(value="https://ats.com/")
@@ -62,9 +62,9 @@ class TestCreateCv:
 
         invalid_phone_command = CreateCvCommand(
             user_id=1,
-            first_name="Alex",
-            last_name="Caniggia",
-            email_address="alex.caniggia@example.com",
+            first_name="Steve",
+            last_name="Jobs",
+            email_address="steve.jobs@example.com",
             phone_number="3434589536",
             linkedin_url="https://linkedin.com/",
             portfolio_url="https://ats.com/",
@@ -86,9 +86,9 @@ class TestCreateCv:
 
         invalid_email_command = CreateCvCommand(
             user_id=1,
-            first_name="Alex",
-            last_name="Caniggia",
-            email_address="alex.caniggia.example.com",
+            first_name="Steve",
+            last_name="Jobs",
+            email_address="steve.jobs@example.com",
             phone_number="+543434589536",
             linkedin_url="https://linkedin.com/",
             portfolio_url="https://ats.com/",
@@ -110,9 +110,9 @@ class TestCreateCv:
 
         invalid_links_command = CreateCvCommand(
             user_id=1,
-            first_name="Alex",
-            last_name="Caniggia",
-            email_address="alex.caniggia@example.com",
+            first_name="Steve",
+            last_name="Jobs",
+            email_address="steve.jobs@example.com",
             phone_number="+543434589536",
             linkedin_url="linkedin-in/mylinkedin",
             portfolio_url="https://ats.com/",
@@ -134,9 +134,9 @@ class TestCreateCv:
 
         invalid_user_id_command = CreateCvCommand(
             user_id=22,
-            first_name="Alex",
-            last_name="Caniggia",
-            email_address="alex.caniggia@example.com",
+            first_name="Steve",
+            last_name="Jobs",
+            email_address="steve.jobs@example.com",
             phone_number="+543434589536",
             linkedin_url="linkedin-in/mylinkedin",
             portfolio_url="https://ats.com/",

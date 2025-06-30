@@ -55,7 +55,7 @@ Schema
 ### Create new CV
 
 ```http
-  POST /api/cvs/
+  POST /api/cvs/create/
 ```
 
 Request body

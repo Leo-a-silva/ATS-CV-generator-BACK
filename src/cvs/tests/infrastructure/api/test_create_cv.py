@@ -41,9 +41,9 @@ class TestCvCreation:
         # Create CV
         cv_input = {
             "user_id": 1,
-            "first_name": "Alex",
-            "last_name": "Caniggia",
-            "email_address": "alex.caniggia@example.com",
+            "first_name": "Steve",
+            "last_name": "Jobs",
+            "email_address": "steve.jobs@example.com",
             "phone_number": "+543434586789",
             "linkedin_url": "https://linkedin.com/",
             "portfolio_url": "https://ats.com/",
@@ -53,9 +53,9 @@ class TestCvCreation:
         }
 
         res = {
-            "first_name": "Alex",
-            "last_name": "Caniggia",
-            "email_address": "alex.caniggia@example.com",
+            "first_name": "Steve",
+            "last_name": "Jobs",
+            "email_address": "steve.jobs@example.com",
             "phone_number": "+543434586789",
             "linkedin_url": "https://linkedin.com/",
             "portfolio_url": "https://ats.com/",
