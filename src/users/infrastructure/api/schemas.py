@@ -17,6 +17,10 @@ class UserResponse(BaseModel):
     created_at: datetime
 
 
+class LoginResponse(UserResponse):
+    access_token: str
+
+
 class LoginUserRequest(BaseModel):
     email_address: EmailStr
     password: str

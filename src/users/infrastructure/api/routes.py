@@ -1,9 +1,8 @@
-from curses.ascii import HT
 from fastapi import APIRouter, HTTPException, status
 from src.shared.domain.exceptions import InvalidEmailAddressException
+from src.shared.infrastructure.jwt import SECRET_KEY
 from src.users.application.use_cases.login_user import (
     LoginUserCommand,
-    LoginUserResponse,
     LoginUserUseCase,
 )
 from src.users.application.use_cases.register_user import (
@@ -16,26 +15,36 @@ from src.users.domain.exceptions import (
     UserDoesNotExist,
 )
 from src.users.infrastructure.api.schemas import (
+    LoginResponse,
     LoginUserRequest,
     RegisterUserRequest,
     UserResponse,
 )
 from src.users.infrastructure.repositories import SQLModelUsersRepository
-from src.users.infrastructure.services import BcryptPasswordHashingService
+from src.users.infrastructure.services import (
+    BcryptPasswordHashingService,
+    JWTTokenService,
+)
+
 
 router = APIRouter(prefix="/users", tags=["Users"])
 
 
 @router.post(
     "/login/",
-    response_model=UserResponse,
+    response_model=LoginResponse,
     status_code=status.HTTP_200_OK,
 )
-def login_user(payload: LoginUserRequest) -> UserResponse:
+def login_user(payload: LoginUserRequest) -> LoginResponse:
     try:
         users_repository = SQLModelUsersRepository()
         password_service = BcryptPasswordHashingService()
-        use_case = LoginUserUseCase(users_repository, password_service)
+        token_service = JWTTokenService(secret_key=SECRET_KEY)
+        use_case = LoginUserUseCase(
+            users_repository,
+            password_service,
+            token_service,
+        )
 
         user = use_case.execute(
             LoginUserCommand(
@@ -44,12 +53,13 @@ def login_user(payload: LoginUserRequest) -> UserResponse:
             )
         )
 
-        return UserResponse(
+        return LoginResponse(
             user_id=user.user_id,
             first_name=user.first_name,
             last_name=user.last_name,
             email_address=user.email_address,
             created_at=user.created_at,
+            access_token=user.access_token,
         )
 
     except InvalidEmailAddressException as e:

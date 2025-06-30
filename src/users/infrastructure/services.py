@@ -1,5 +1,5 @@
 import bcrypt
-from datetime import datetime, timedelta
+from datetime import datetime, timedelta, timezone
 import jwt
 from typing import Optional
 
@@ -33,7 +33,7 @@ class JWTTokenService:
         self.expires_delta = expires_delta
 
     def create_access_token(self, user_id: int) -> str:
-        expire = datetime.now() + self.expires_delta
+        expire = datetime.now(timezone.utc) + self.expires_delta
         to_encode = {"sub": str(user_id), "exp": expire}
         return jwt.encode(to_encode, self.secret_key, algorithm=self.algorithm)
 

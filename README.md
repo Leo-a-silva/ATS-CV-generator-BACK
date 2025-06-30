@@ -78,7 +78,8 @@ Schema
     "first_name": "string",
     "last_name": "string",
     "email_address": "user@example.com",
-    "created_at": "string"
+    "created_at": "string",
+    "access_token": "string",
 }
 ```
 

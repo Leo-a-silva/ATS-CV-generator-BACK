@@ -2,7 +2,7 @@ from dataclasses import dataclass
 import datetime
 
 from ...domain.repositories import UsersRepository
-from ...domain.services import PasswordHashingService
+from ...domain.services import PasswordHashingService, TokenService
 from ...domain.value_objects import UserEmailAddress
 from ...domain.exceptions import (
     PasswordDoesNotMatch,
@@ -23,6 +23,7 @@ class LoginUserResponse:
     last_name: str
     email_address: str
     created_at: datetime
+    access_token: str
 
 
 class LoginUserUseCase:
@@ -30,9 +31,11 @@ class LoginUserUseCase:
         self,
         users_repository: UsersRepository,
         password_hashing_service: PasswordHashingService,
+        token_service: TokenService,
     ):
         self._users_repository = users_repository
         self._password_hashing_service = password_hashing_service
+        self._token_service = token_service
 
     def execute(self, command: LoginUserCommand) -> LoginUserResponse:
         email_address = UserEmailAddress(value=command.email_address)
@@ -48,12 +51,16 @@ class LoginUserUseCase:
                 ):
                     raise PasswordDoesNotMatch
 
+                access_token = self._token_service.create_access_token(
+                    user_id=user.get_id().value
+                )
                 return LoginUserResponse(
                     user_id=user.get_id().value,
                     first_name=user.first_name(),
                     last_name=user.last_name(),
                     email_address=user.email_address().value,
                     created_at=user.created_at(),
+                    access_token=access_token,
                 )
 
         else:
