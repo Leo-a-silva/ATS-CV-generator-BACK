@@ -32,6 +32,8 @@ class TestCvCreation:
     def test_creates_work_education_and_returns_200_ok(self):
         # Create fake user
         request_user_data = {
+            "first_name": "Steve",
+            "last_name": "Jobs",
             "email_address": "test@example.com",
             "password": "Secure_password123",
         }

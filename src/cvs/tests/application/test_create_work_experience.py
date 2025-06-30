@@ -1,4 +1,5 @@
 from cvs.application.create_work_experience import CreateWorkExperience, CreateWECommand
+from src.cvs.application.create_cv import CreateCv, CreateCvCommand
 from src.cvs.tests.application.fake_repositories import (
     FakeCvRepository,
     FakeUsersRepository,
@@ -14,6 +15,8 @@ class TestCreateWorkExperience:
 
         new_user = {
             "id": 1,
+            "first_name": "Steve",
+            "last_name": "Jobs",
             "email_address": "steve.jobs@example.com",
             "hashed_password": "MyHashedPassword123",
             "created_at": "2025-06-23 16:45:48",
@@ -21,20 +24,20 @@ class TestCreateWorkExperience:
         }
         users_repository.save(new_user)
 
-        new_cv = {
-            "id": 1,
-            "user_id": 1,
-            "first_name": "Steve",
-            "last_name": "Jobs",
-            "email_address": "steve.jobs@example.com",
-            "phone_number": "+543434586789",
-            "linkedin_url": "https://linkedin.com/",
-            "portfolio_url": "https://ats.com/",
-            "country": "ARG",
-            "city": "Buenos Aires",
-            "summary": "Star",
-        }
-        cv_repository.save(new_cv)
+        CreateCv(cv_repository, users_repository).execute(
+            CreateCvCommand(
+                user_id=1,
+                first_name="Steve",
+                last_name="Jobs",
+                email_address="steve.jobs@example.com",
+                phone_number="+543434586789",
+                linkedin_url="https://linkedin.com/",
+                portfolio_url="https://ats.com/",
+                country="ARG",
+                city="Buenos Aires",
+                summary="Star",
+            )
+        )
 
         CreateWorkExperience(work_experience_repository, cv_repository).execute(
             CreateWECommand(

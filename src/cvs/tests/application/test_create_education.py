@@ -1,3 +1,4 @@
+from src.cvs.application.create_cv import CreateCv, CreateCvCommand
 from src.cvs.application.create_education import CreateEducation, CreateEducationCommand
 from src.cvs.tests.application.fake_repositories import (
     FakeCvRepository,
@@ -14,6 +15,8 @@ class TestCreateEducation:
 
         new_user = {
             "id": 1,
+            "first_name": "Steve",
+            "last_name": "Jobs",
             "email_address": "steve.jobs@example.com",
             "hashed_password": "MyHashedPassword123",
             "created_at": "2025-06-23 16:45:48",
@@ -21,20 +24,20 @@ class TestCreateEducation:
         }
         users_repository.save(new_user)
 
-        new_cv = {
-            "id": 1,
-            "user_id": 1,
-            "first_name": "Steve",
-            "last_name": "Jobs",
-            "email_address": "steve.jobs@example.com",
-            "phone_number": "+543434586789",
-            "linkedin_url": "https://linkedin.com/",
-            "portfolio_url": "https://ats.com/",
-            "country": "ARG",
-            "city": "Buenos Aires",
-            "summary": "Star",
-        }
-        cv_repository.save(new_cv)
+        CreateCv(cv_repository, users_repository).execute(
+            CreateCvCommand(
+                user_id=1,
+                first_name="Steve",
+                last_name="Jobs",
+                email_address="steve.jobs@example.com",
+                phone_number="+543434586789",
+                linkedin_url="https://linkedin.com/",
+                portfolio_url="https://ats.com/",
+                country="ARG",
+                city="Buenos Aires",
+                summary="Star",
+            )
+        )
 
         CreateEducation(education_repository, cv_repository).execute(
             CreateEducationCommand(

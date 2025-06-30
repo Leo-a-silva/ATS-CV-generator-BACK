@@ -111,7 +111,7 @@ class SQLModelCvsRepository(CvsRepository):
             for cv_model in cv_models
         ]
 
-    def save(self, cv: Cv) -> None:
+    def save(self, cv: Cv) -> Cv:
         if not cv.is_persisted():
             return self._create_cv(cv)
         else:

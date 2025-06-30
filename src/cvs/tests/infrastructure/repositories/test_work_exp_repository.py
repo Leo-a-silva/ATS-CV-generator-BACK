@@ -22,6 +22,8 @@ class TestSQLModelWorkExperiencesRepository:
         # Fake user and cv
         with Session(engine) as session:
             user = UserModel(
+                first_name="Steve",
+                last_name="Jobs",
                 email_address="steve.jobs@example.com",
                 hashed_password="FAKEHASHEDPASSWORD12345!",
                 created_at=datetime.now(),
@@ -69,6 +71,8 @@ class TestSQLModelWorkExperiencesRepository:
     def test_get_work_experiences_from_db(self) -> None:
         with Session(engine) as session:
             user = UserModel(
+                first_name="Steve",
+                last_name="Jobs",
                 email_address="steve.jobs@example.com",
                 hashed_password="FAKEHASHEDPASSWORD12345!",
                 created_at=datetime.now(),

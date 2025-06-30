@@ -32,6 +32,8 @@ class TestCvCreation:
     def test_creates_cv_and_returns_200_ok(self):
         # Create fake user
         request_data = {
+            "first_name": "Steve",
+            "last_name": "Jobs",
             "email_address": "test@example.com",
             "password": "Secure_password123",
         }
@@ -66,6 +68,6 @@ class TestCvCreation:
             "user_id": 1,
         }
 
-        response = client.post("/api/cvs/", json=cv_input)
+        response = client.post("/api/cvs/create/", json=cv_input)
         assert response.json() == res
         assert response.status_code == 201
