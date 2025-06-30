@@ -9,6 +9,8 @@ from .value_objects import UserEmailAddress, HashedPassword
 class User:
     def __init__(
         self,
+        first_name: str,
+        last_name: str,
         email_address: UserEmailAddress,
         hashed_password: HashedPassword,
         id: Optional[Id] = None,
@@ -16,6 +18,8 @@ class User:
         updated_at: Optional[datetime] = None,
     ):
         self._id = id
+        self._first_name = first_name
+        self._last_name = last_name
         self._email_address = email_address
         self._hashed_password = hashed_password
         self._created_at = created_at or datetime.now()
@@ -24,18 +28,24 @@ class User:
     @classmethod
     def create(
         cls,
+        first_name: str,
+        last_name: str,
         email_address: UserEmailAddress,
         hashed_password: HashedPassword,
     ) -> "User":
         return cls(
+            first_name,
+            last_name,
             email_address,
-            hashed_password=hashed_password,
+            hashed_password,
         )
 
     @classmethod
     def from_persistence(
         cls,
         id: Id,
+        first_name: str,
+        last_name: str,
         email_address: UserEmailAddress,
         hashed_password: HashedPassword,
         created_at: datetime,
@@ -43,6 +53,8 @@ class User:
     ) -> "User":
         return cls(
             id=id,
+            first_name=first_name,
+            last_name=last_name,
             email_address=email_address,
             hashed_password=hashed_password,
             created_at=created_at,
@@ -51,6 +63,12 @@ class User:
 
     def get_id(self) -> Optional[Id]:
         return self._id
+
+    def first_name(self) -> str:
+        return self._first_name
+
+    def last_name(self) -> str:
+        return self._last_name
 
     def email_address(self) -> UserEmailAddress:
         return self._email_address

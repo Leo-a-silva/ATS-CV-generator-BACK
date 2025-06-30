@@ -30,6 +30,8 @@ def register_user(
 
         user = use_case.execute(
             RegisterUserCommand(
+                first_name=payload.first_name,
+                last_name=payload.last_name,
                 email_address=payload.email_address,
                 password=payload.password,
             )
@@ -37,6 +39,8 @@ def register_user(
 
         return UserResponse(
             user_id=user.user_id,
+            first_name=payload.first_name,
+            last_name=payload.last_name,
             email_address=user.email_address,
             created_at=user.created_at,
         )

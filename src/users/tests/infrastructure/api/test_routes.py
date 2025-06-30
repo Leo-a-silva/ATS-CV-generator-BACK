@@ -32,11 +32,13 @@ class TestUserCreation:
 
     def test_creates_user_and_returns_201_ok(self):
         request_data = {
-            "email_address": "test@example.com",
+            "first_name": "Steve",
+            "last_name": "Jobs",
+            "email_address": "steve.jobs@example.com",
             "password": "Secure_password123",
         }
 
-        response = client.post("/api/users/register", json=request_data)
+        response = client.post("/api/users/register/", json=request_data)
         assert response.status_code == 201
         data = response.json()
         assert data["email_address"] == request_data["email_address"]
@@ -45,26 +47,30 @@ class TestUserCreation:
 
     def test_register_user_with_existing_email(self):
         request_data = {
+            "first_name": "Steve",
+            "last_name": "Jobs",
             "email_address": "existing@example.com",
             "password": "Secure_password123",
         }
 
         # Create first user
-        client.post("/api/users/register", json=request_data)
+        client.post("/api/users/register/", json=request_data)
 
         # Try to create second user with same email
-        response = client.post("/api/users/register", json=request_data)
+        response = client.post("/api/users/register/", json=request_data)
 
         assert response.status_code == 409
         assert "already exists" in response.json()["detail"]
 
     def test_register_user_with_invalid_email(self):
         request_data = {
+            "first_name": "Steve",
+            "last_name": "Jobs",
             "email_address": "invalid-email",
             "password": "Secure_password123",
         }
 
-        response = client.post("/api/users/register", json=request_data)
+        response = client.post("/api/users/register/", json=request_data)
         assert response.status_code == 422
         assert (
             "value is not a valid email address" in response.json()["detail"][0]["msg"]

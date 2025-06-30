@@ -10,6 +10,8 @@ from ...domain.exceptions import UserAlreadyExistsException
 
 @dataclass
 class RegisterUserCommand:
+    first_name: str
+    last_name: str
     email_address: str
     password: str
 
@@ -17,6 +19,8 @@ class RegisterUserCommand:
 @dataclass
 class RegisterUserResponse:
     user_id: int
+    first_name: str
+    last_name: str
     email_address: str
     created_at: datetime
 
@@ -41,11 +45,18 @@ class RegisterUserUseCase:
 
         hashed_password = self._password_hashing_service.hash_password(plain_password)
 
-        user = User.create(email_address=email_address, hashed_password=hashed_password)
+        user = User.create(
+            first_name=command.first_name,
+            last_name=command.last_name,
+            email_address=email_address,
+            hashed_password=hashed_password,
+        )
         saved_user = self._users_repository.save(user)
 
         return RegisterUserResponse(
             user_id=saved_user.get_id().value,
+            first_name=saved_user.first_name(),
+            last_name=saved_user.last_name(),
             email_address=saved_user.email_address().value,
             created_at=saved_user.created_at(),
         )

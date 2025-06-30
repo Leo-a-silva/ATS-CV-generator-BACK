@@ -18,7 +18,9 @@ class TestSQLModelCvRepository:
 
         repo.save(
             User(
-                email_address=UserEmailAddress(value="alex.caniggia@example.com"),
+                first_name="Steve",
+                last_name="Jobs",
+                email_address=UserEmailAddress(value="steve.jobs@example.com"),
                 hashed_password=HashedPassword(value="fakehashingPassword1"),
             )
         )
@@ -26,4 +28,5 @@ class TestSQLModelCvRepository:
         with Session(engine) as session:
             statement = select(UserModel)
             user = session.exec(statement).first()
-            assert user.email_address == "alex.caniggia@example.com"
+            assert user.first_name == "Steve"
+            assert user.email_address == "steve.jobs@example.com"

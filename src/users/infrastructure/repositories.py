@@ -17,6 +17,8 @@ class UserModel(SQLModel, table=True):
     __table_args__ = {"extend_existing": True}
 
     id: int | None = Field(default=None, primary_key=True)
+    first_name: str
+    last_name: str
     email_address: str
     hashed_password: str
     created_at: datetime
@@ -59,6 +61,8 @@ class SQLModelUsersRepository(UsersRepository):
 
     def _create_user(self, user: User) -> User:
         user_model = UserModel(
+            first_name=user.first_name(),
+            last_name=user.last_name(),
             email_address=user.email_address().value,
             hashed_password=user.hashed_password().value,
             created_at=user.created_at(),
@@ -81,6 +85,8 @@ class SQLModelUsersRepository(UsersRepository):
             if not user_model:
                 raise ValueError(f"User with id {user.id().value} not found")
 
+            user_model.first_name = user.first_name()
+            user_model.last_name = user.last_name()
             user_model.email_address = user.email_address().value
             user_model.hashed_password = user.hashed_password().value
             user_model.updated_at = user.updated_at()
@@ -93,6 +99,8 @@ class SQLModelUsersRepository(UsersRepository):
     def _to_domain_model(self, user_model: UserModel) -> User:
         return User.from_persistence(
             id=Id(value=user_model.id),
+            first_name=user_model.first_name,
+            last_name=user_model.last_name,
             email_address=UserEmailAddress(value=user_model.email_address),
             hashed_password=HashedPassword(value=user_model.hashed_password),
             created_at=user_model.created_at,
