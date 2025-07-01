@@ -15,6 +15,9 @@ class CvsRepository(ABC):
     @abstractmethod
     def exists_by_id(self, id: Id) -> bool: ...
 
+    @abstractmethod
+    def get_by_id(self, id: Id) -> Cv: ...
+
 
 class WorkExperiencesRepository(ABC):
     @abstractmethod

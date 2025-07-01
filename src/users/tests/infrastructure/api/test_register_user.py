@@ -41,9 +41,12 @@ class TestUserCreation:
         response = client.post("/api/users/register/", json=request_data)
         assert response.status_code == 201
         data = response.json()
-        assert data["email_address"] == request_data["email_address"]
-        assert "user_id" in data
-        assert "created_at" in data
+        assert (
+            data["data"]["description"][0]["email_address"]
+            == request_data["email_address"]
+        )
+        assert "user_id" in data["data"]
+        assert "access_token" in data["data"]
 
     def test_register_user_with_existing_email(self):
         request_data = {

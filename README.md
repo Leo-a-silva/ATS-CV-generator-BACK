@@ -48,11 +48,21 @@ Request body
 Schema
 ```json
 {
-  "user_id": 0,
-  "first_name": "string",
-  "late_name": "string",
-  "email_address": "string",
-  "created_at": "2025-06-24T17:27:04.153Z"
+  "detail": {
+    "message": "User successfully registered"
+  },
+  "data": {
+    "user_id": 1,
+    "access_token": "Not created until login",
+    "description": [
+      {
+        "first_name": "string",
+        "last_name": "string",
+        "email_address": "user@example.com",
+        "created_at": "string",
+      },
+    ],
+  },
 }
 ```
 
@@ -74,12 +84,21 @@ Request body
 Schema
 ```json
 {
+  "detail": {
+    "message": "Login successful"
+  },
+  "data": {
     "user_id": 1,
-    "first_name": "string",
-    "last_name": "string",
-    "email_address": "user@example.com",
-    "created_at": "string",
     "access_token": "string",
+    "description": [
+      {
+        "first_name": "string",
+        "last_name": "string",
+        "email_address": "user@example.com",
+        "created_at": "string",
+      },
+    ],
+  },
 }
 ```
 
@@ -92,16 +111,19 @@ Schema
 Request body
 ```json
 {
-  "first_name": "string",
-  "last_name": "string",
-  "email_address": "string",
-  "phone_number": "string",
-  "linkedin_url": "string",
-  "portfolio_url": "string",
-  "country": "string",
-  "city": "string",
-  "summary": "string",
-  "user_id": 0
+  "user_id": 0,
+  "cv": 
+    {
+      "first_name": "string",
+      "last_name": "string",
+      "email_address": "string",
+      "phone_number": "string",
+      "linkedin_url": "string",
+      "portfolio_url": "string",
+      "country": "string",
+      "city": "string",
+      "summary": "string",
+    }
 }
 ```
 
@@ -109,17 +131,26 @@ Request body
 Schema
 ```json
 {
-  "first_name": "string",
-  "last_name": "string",
-  "email_address": "string",
-  "phone_number": "string",
-  "linkedin_url": "string",
-  "portfolio_url": "string",
-  "country": "string",
-  "city": "string",
-  "summary": "string",
-  "cv_id": 0,
-  "user_id": 0
+  "detail": {
+    "message": "Cv created succesfully"
+  },
+  "data": {
+    "cv_id": 0,
+    "user_id": 0,
+    "description": [
+      {
+        "first_name": "string",
+        "last_name": "string",
+        "email_address": "string",
+        "phone_number": "string",
+        "linkedin_url": "string",
+        "portfolio_url": "string",
+        "country": "string",
+        "city": "string",
+        "summary": "string",
+      },
+    ],
+  },
 }
 ```
 
@@ -131,30 +162,41 @@ Schema
 
 Request body
 ```json
-[
-  {
-    "role": "string",
-    "company_name": "string",
-    "summary": "string",
-    "start_date": "2025-06-24",
-    "end_date": "2025-06-24",
-    "cv_id": 0
-  },
-]
+{
+  "cv_id": 0,
+  "work_experiences": [
+      {
+      "role": "string",
+      "company_name": "string",
+      "summary": "string",
+      "start_date": "2025-06-24",
+      "end_date": "2025-06-24",
+    },
+  ],
+}
 ```
 
 201 Successful Response | Example Value
 Schema
 ```json
-[
-  {
-    "role": "string",
-    "company_name": "string",
-    "summary": "string",
-    "start_date": "2025-06-24",
-    "end_date": "2025-06-24"
+{
+  "detail": {
+    "message": "Work Experiences saved succesfully"
   },
-]
+  "data": {
+    "cv_id": 0,
+    "user_id": 0,
+    "description": [
+      {
+        "role": "string",
+        "company_name": "string",
+        "summary": "string",
+        "start_date": "2025-06-24",
+        "end_date": "2025-06-24"
+      },
+    ],
+  },
+}
 ```
 
 ### Create new Education
@@ -165,28 +207,39 @@ Schema
 
 Request body
 ```json
-[
-  {
-    "title": "string",
-    "institution": "string",
-    "start_date": "2025-06-24",
-    "end_date": "2025-06-24",
-    "cv_id": 0
-  }
-]
+{
+  "cv_id": 0,
+  "educations": [
+      {
+        "title": "string",
+        "institution": "string",
+        "start_date": "2025-06-24",
+        "end_date": "2025-06-24",
+      },
+  ],
+}
 ```
 
 201 Successful Response | Example Value
 Schema
 ```json
-[   
-  {
-    "title": "string",
-    "institution": "string",
-    "start_date": "2025-06-24",
-    "end_date": "2025-06-24"
-  }
-]
+{
+  "detail": {
+    "message": "Educations saved succesfully"
+  },
+  "data": {
+    "cv_id": 0,
+    "user_id": 0,
+    "description": [
+      {
+        "title": "string",
+        "institution": "string",
+        "start_date": "2025-06-24",
+        "end_date": "2025-06-24"
+      },
+    ],
+  },
+}
 ```
 ## Run Locally
 

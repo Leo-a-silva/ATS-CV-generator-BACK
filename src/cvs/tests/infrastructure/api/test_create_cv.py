@@ -43,29 +43,38 @@ class TestCvCreation:
         # Create CV
         cv_input = {
             "user_id": 1,
-            "first_name": "Steve",
-            "last_name": "Jobs",
-            "email_address": "steve.jobs@example.com",
-            "phone_number": "+543434586789",
-            "linkedin_url": "https://linkedin.com/",
-            "portfolio_url": "https://ats.com/",
-            "country": "ARG",
-            "city": "Buenos Aires",
-            "summary": "Star",
+            "cv": {
+                "first_name": "Steve",
+                "last_name": "Jobs",
+                "email_address": "steve.jobs@example.com",
+                "phone_number": "+543434586789",
+                "linkedin_url": "https://linkedin.com/",
+                "portfolio_url": "https://ats.com/",
+                "country": "ARG",
+                "city": "Buenos Aires",
+                "summary": "Star",
+            },
         }
 
         res = {
-            "first_name": "Steve",
-            "last_name": "Jobs",
-            "email_address": "steve.jobs@example.com",
-            "phone_number": "+543434586789",
-            "linkedin_url": "https://linkedin.com/",
-            "portfolio_url": "https://ats.com/",
-            "country": "ARG",
-            "city": "Buenos Aires",
-            "summary": "Star",
-            "cv_id": 1,
-            "user_id": 1,
+            "detail": {"message": "Cv created succesfully"},
+            "data": {
+                "cv_id": 1,
+                "user_id": 1,
+                "description": [
+                    {
+                        "first_name": "Steve",
+                        "last_name": "Jobs",
+                        "email_address": "steve.jobs@example.com",
+                        "phone_number": "+543434586789",
+                        "linkedin_url": "https://linkedin.com/",
+                        "portfolio_url": "https://ats.com/",
+                        "country": "ARG",
+                        "city": "Buenos Aires",
+                        "summary": "Star",
+                    }
+                ],
+            },
         }
 
         response = client.post("/api/cvs/create/", json=cv_input)

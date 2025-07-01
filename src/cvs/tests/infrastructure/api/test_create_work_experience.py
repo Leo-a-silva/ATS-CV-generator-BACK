@@ -43,40 +43,51 @@ class TestCvCreation:
         # Create fake cv
         request_cv_data = {
             "user_id": 1,
-            "first_name": "Steve",
-            "last_name": "Jobs",
-            "email_address": "steve.jobs@example.com",
-            "phone_number": "+543434586789",
-            "linkedin_url": "https://linkedin.com/",
-            "portfolio_url": "https://ats.com/",
-            "country": "ARG",
-            "city": "Buenos Aires",
-            "summary": "Star",
+            "cv": {
+                "first_name": "Steve",
+                "last_name": "Jobs",
+                "email_address": "steve.jobs@example.com",
+                "phone_number": "+543434586789",
+                "linkedin_url": "https://linkedin.com/",
+                "portfolio_url": "https://ats.com/",
+                "country": "ARG",
+                "city": "Buenos Aires",
+                "summary": "Star",
+            },
         }
 
         client.post("/api/cvs/create/", json=request_cv_data)
 
         # Create Work Experience
-        request_we_data = [
-            {
-                "cv_id": 1,
-                "role": "Dev Ops",
-                "company_name": "Share IT",
-                "summary": "Design and implemented CI/CD Pipelines.",
-                "start_date": "2023-06-24",
-                "end_date": "2024-06-24",
-            }
-        ]
+        request_we_data = {
+            "cv_id": 1,
+            "work_experiences": [
+                {
+                    "role": "Dev Ops",
+                    "company_name": "Share IT",
+                    "summary": "Design and implemented CI/CD Pipelines.",
+                    "start_date": "2023-06-24",
+                    "end_date": "2024-06-24",
+                },
+            ],
+        }
 
-        success_response = [
-            {
-                "role": "Dev Ops",
-                "company_name": "Share IT",
-                "summary": "Design and implemented CI/CD Pipelines.",
-                "start_date": "2023-06-24",
-                "end_date": "2024-06-24",
-            }
-        ]
+        success_response = {
+            "detail": {"message": "Work Experiences saved succesfully"},
+            "data": {
+                "cv_id": 1,
+                "user_id": 1,
+                "description": [
+                    {
+                        "role": "Dev Ops",
+                        "company_name": "Share IT",
+                        "summary": "Design and implemented CI/CD Pipelines.",
+                        "start_date": "2023-06-24",
+                        "end_date": "2024-06-24",
+                    }
+                ],
+            },
+        }
 
         response = client.post("/api/cvs/work-experience", json=request_we_data)
         assert response.json() == success_response

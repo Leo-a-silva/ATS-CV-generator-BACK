@@ -36,9 +36,12 @@ class TestUserLogin:
         response = client.post("/api/users/login/", json=request_data)
         assert response.status_code == 200
         data = response.json()
-        assert data["email_address"] == request_data["email_address"]
-        assert "user_id" in data
-        assert "created_at" in data
+        assert (
+            data["data"]["description"][0]["email_address"]
+            == request_data["email_address"]
+        )
+        assert "user_id" in data["data"]
+        assert "access_token" in data["data"]
 
     def test_login_using_wrong_password_and_returns_401_unauthorized(self):
         test_user = {

@@ -15,10 +15,12 @@ from src.users.domain.exceptions import (
     UserDoesNotExist,
 )
 from src.users.infrastructure.api.schemas import (
-    LoginResponse,
+    Data,
+    Detail,
     LoginUserRequest,
     RegisterUserRequest,
     UserResponse,
+    ResponseSchema,
 )
 from src.users.infrastructure.repositories import SQLModelUsersRepository
 from src.users.infrastructure.services import (
@@ -32,10 +34,10 @@ router = APIRouter(prefix="/users", tags=["Users"])
 
 @router.post(
     "/login/",
-    response_model=LoginResponse,
+    response_model=ResponseSchema,
     status_code=status.HTTP_200_OK,
 )
-def login_user(payload: LoginUserRequest) -> LoginResponse:
+def login_user(payload: LoginUserRequest) -> ResponseSchema:
     try:
         users_repository = SQLModelUsersRepository()
         password_service = BcryptPasswordHashingService()
@@ -53,13 +55,20 @@ def login_user(payload: LoginUserRequest) -> LoginResponse:
             )
         )
 
-        return LoginResponse(
-            user_id=user.user_id,
-            first_name=user.first_name,
-            last_name=user.last_name,
-            email_address=user.email_address,
-            created_at=user.created_at,
-            access_token=user.access_token,
+        return ResponseSchema(
+            detail=Detail(message="Login successful"),
+            data=Data(
+                user_id=user.user_id,
+                access_token=user.access_token,
+                description=[
+                    UserResponse(
+                        first_name=user.first_name,
+                        last_name=user.last_name,
+                        email_address=user.email_address,
+                        created_at=user.created_at,
+                    )
+                ],
+            ),
         )
 
     except InvalidEmailAddressException as e:
@@ -82,12 +91,12 @@ def login_user(payload: LoginUserRequest) -> LoginResponse:
 
 @router.post(
     "/register/",
-    response_model=UserResponse,
+    response_model=ResponseSchema,
     status_code=status.HTTP_201_CREATED,
 )
 def register_user(
     payload: RegisterUserRequest,
-) -> UserResponse:
+) -> ResponseSchema:
     try:
         users_repository = SQLModelUsersRepository()
         password_service = BcryptPasswordHashingService()
@@ -102,12 +111,20 @@ def register_user(
             )
         )
 
-        return UserResponse(
-            user_id=user.user_id,
-            first_name=user.first_name,
-            last_name=user.last_name,
-            email_address=user.email_address,
-            created_at=user.created_at,
+        return ResponseSchema(
+            detail=Detail(message="User successfully registered"),
+            data=Data(
+                user_id=user.user_id,
+                access_token=None,
+                description=[
+                    UserResponse(
+                        first_name=user.first_name,
+                        last_name=user.last_name,
+                        email_address=user.email_address,
+                        created_at=user.created_at,
+                    )
+                ],
+            ),
         )
 
     except UserAlreadyExistsException as e:

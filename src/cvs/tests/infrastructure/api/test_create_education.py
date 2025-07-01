@@ -43,38 +43,49 @@ class TestCvCreation:
         # Create fake cv
         request_cv_data = {
             "user_id": 1,
-            "first_name": "Steve",
-            "last_name": "Jobs",
-            "email_address": "steve.jobs@example.com",
-            "phone_number": "+543434586789",
-            "linkedin_url": "https://linkedin.com/",
-            "portfolio_url": "https://ats.com/",
-            "country": "ARG",
-            "city": "Buenos Aires",
-            "summary": "Star",
+            "cv": {
+                "first_name": "Steve",
+                "last_name": "Jobs",
+                "email_address": "steve.jobs@example.com",
+                "phone_number": "+543434586789",
+                "linkedin_url": "https://linkedin.com/",
+                "portfolio_url": "https://ats.com/",
+                "country": "ARG",
+                "city": "Buenos Aires",
+                "summary": "Star",
+            },
         }
 
         client.post("/api/cvs/create/", json=request_cv_data)
 
         # Create Education
-        request_education_data = [
-            {
-                "cv_id": 1,
-                "title": "CS Degree",
-                "institution": "Hardvard",
-                "start_date": "2018-06-24",
-                "end_date": "2023-06-24",
-            }
-        ]
+        request_education_data = {
+            "cv_id": 1,
+            "educations": [
+                {
+                    "title": "CS Degree",
+                    "institution": "Hardvard",
+                    "start_date": "2018-06-24",
+                    "end_date": "2023-06-24",
+                }
+            ],
+        }
 
-        success_response = [
-            {
-                "title": "CS Degree",
-                "institution": "Hardvard",
-                "start_date": "2018-06-24",
-                "end_date": "2023-06-24",
-            }
-        ]
+        success_response = {
+            "detail": {"message": "Educations saved succesfully"},
+            "data": {
+                "cv_id": 1,
+                "user_id": 1,
+                "description": [
+                    {
+                        "title": "CS Degree",
+                        "institution": "Hardvard",
+                        "start_date": "2018-06-24",
+                        "end_date": "2023-06-24",
+                    }
+                ],
+            },
+        }
 
         response = client.post("/api/cvs/education/", json=request_education_data)
         assert response.json() == success_response
