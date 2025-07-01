@@ -141,7 +141,7 @@ class WorkExperience:
         company_name: str,
         summary: str,
         start_date: DateObject,
-        end_date: DateObject,
+        end_date: Optional[DateObject] = None,
     ):
         self._cv_id = cv_id
         self._role = role
@@ -158,7 +158,7 @@ class WorkExperience:
         company_name: str,
         summary: str,
         start_date: DateObject,
-        end_date: DateObject,
+        end_date: Optional[DateObject] = None,
     ) -> "Cv":
         return cls(
             cv_id,
@@ -195,7 +195,7 @@ class Education:
         title: str,
         institution: str,
         start_date: DateObject,
-        end_date: DateObject,
+        end_date: Optional[DateObject] = None,
     ):
         self._cv_id = cv_id
         self._title = title
@@ -210,7 +210,7 @@ class Education:
         title: str,
         institution: str,
         start_date: DateObject,
-        end_date: DateObject,
+        end_date: Optional[DateObject] = None,
     ) -> "Education":
         return cls(
             cv_id,

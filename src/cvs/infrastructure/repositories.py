@@ -75,7 +75,7 @@ class CoursesModel(SQLModel, table=True):
 
     title: str = Field(..., max_length=80)
     institution: str = Field(..., max_length=80)
-    date: date
+    start_date: Optional[date] = None
 
 
 class SkillsModel(SQLModel, table=True):

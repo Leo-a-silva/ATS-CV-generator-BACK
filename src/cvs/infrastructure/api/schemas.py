@@ -40,7 +40,7 @@ class WorkExperienceBase(BaseModel):
     company_name: str
     summary: str
     start_date: date
-    end_date: date
+    end_date: Optional[date] = None
 
 
 class WorkExperienceCreate(BaseModel):
@@ -52,7 +52,7 @@ class EducationBase(BaseModel):
     title: str
     institution: str
     start_date: date
-    end_date: date
+    end_date: Optional[date] = None
 
 
 class EducationCreate(BaseModel):
