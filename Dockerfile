@@ -17,5 +17,5 @@ EXPOSE 8000
 # Configurar PYTHONPATH
 ENV PYTHONPATH="/app/src"
 
-# Comando para iniciar la aplicación
+# Comando para iniciar la aplicación # Quitar '--reload' en producción
 CMD ["uvicorn", "src.main:app", "--host", "0.0.0.0", "--port", "8000", "--reload"]
