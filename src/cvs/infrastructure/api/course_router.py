@@ -21,13 +21,13 @@ from cvs.infrastructure.repositories import (
 )
 from src.shared.domain.value_objects import Id
 
-education_router = APIRouter(
+course_router = APIRouter(
     prefix="/cvs",
     tags=["Courses"],
 )
 
 
-@education_router.post(
+@course_router.post(
     "/course/",
     response_model=ResponseSchema,
     status_code=status.HTTP_201_CREATED,
