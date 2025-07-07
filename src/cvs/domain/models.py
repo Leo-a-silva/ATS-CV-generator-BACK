@@ -234,3 +234,44 @@ class Education:
 
     def end_date(self) -> DateObject:
         return self._end_date
+
+
+class Course:
+    def __init__(
+        self,
+        cv_id: int,
+        title: str,
+        institution: str,
+        start_date: DateObject,
+    ):
+        self._cv_id = cv_id
+        self._title = title
+        self._institution = institution
+        self._start_date = start_date
+
+    @classmethod
+    def create(
+        cls,
+        cv_id: int,
+        title: str,
+        institution: str,
+        start_date: Optional[DateObject] = None,
+    ) -> "Education":
+        return cls(
+            cv_id,
+            title,
+            institution,
+            start_date,
+        )
+
+    def cv_id(self) -> int:
+        return self._cv_id
+
+    def title(self) -> str:
+        return self._title
+
+    def institution(self) -> str:
+        return self._institution
+
+    def start_date(self) -> DateObject:
+        return self._start_date

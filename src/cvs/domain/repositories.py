@@ -33,3 +33,11 @@ class EducationsRepository(ABC):
 
     @abstractmethod
     def save(self, education: Education) -> None: ...
+
+
+class CoursesRepository(ABC):
+    @abstractmethod
+    def all_by_cv_id(self, cv_id: Id) -> list[Education]: ...
+
+    @abstractmethod
+    def save(self, education: Education) -> None: ...

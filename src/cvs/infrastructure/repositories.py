@@ -264,3 +264,37 @@ class SQLModelEducationsRepository(EducationsRepository):
             session.add(education_model)
             session.commit()
             session.refresh(education_model)
+
+
+class SQLModelCoursesRepository(EducationsRepository):
+    def all_by_cv_id(self, cv_id: Id) -> list[Education]:
+        primitive_cv_id = cv_id.value if hasattr(cv_id, "value") else cv_id
+
+        with Session(engine) as session:
+            stmt = select(CoursesModel).where(CoursesModel.cv_id == primitive_cv_id)
+            result = session.exec(stmt)
+            models: list[CoursesModel] = result.all()
+
+            domain_objs: list[Education] = []
+            for model in models:
+                domain_obj = Education(
+                    cv_id=model.cv_id,
+                    title=model.title,
+                    institution=model.institution,
+                    start_date=model.start_date,
+                )
+                domain_objs.append(domain_obj)
+
+            return domain_objs
+
+    def save(self, education: Education) -> None:
+        education_model = CoursesModel(
+            cv_id=education.cv_id(),
+            title=education.title(),
+            institution=education.institution(),
+            start_date=education.start_date(),
+        )
+        with Session(engine) as session:
+            session.add(education_model)
+            session.commit()
+            session.refresh(education_model)
