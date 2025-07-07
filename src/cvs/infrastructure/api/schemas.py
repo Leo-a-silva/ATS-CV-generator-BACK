@@ -58,3 +58,14 @@ class EducationBase(BaseModel):
 class EducationCreate(BaseModel):
     cv_id: int
     educations: List[EducationBase]
+
+
+class CourseBase(BaseModel):
+    title: str
+    institution: str
+    start_date: Optional[date] = None
+
+
+class CourseCreate(BaseModel):
+    cv_id: int
+    courses: List[CourseBase]

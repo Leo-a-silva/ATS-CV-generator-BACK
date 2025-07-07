@@ -21,14 +21,14 @@ app = create_test_app()
 client = TestClient(app)
 
 
-class TestEducationCreation:
+class TestCourseCreation:
     @pytest.fixture(autouse=True)
     def clean_up_db(self):
         SQLModel.metadata.create_all(engine)
         yield
         SQLModel.metadata.drop_all(engine)
 
-    def test_creates_education_and_returns_200_ok(self):
+    def test_creates_course_and_returns_200_ok(self):
         # Create fake user
         request_user_data = {
             "first_name": "Steve",
@@ -57,35 +57,43 @@ class TestEducationCreation:
 
         client.post("/api/cvs/create/", json=request_cv_data)
 
-        # Create Education
-        request_education_data = {
+        # Create Course
+        request_course_data = {
             "cv_id": 1,
-            "educations": [
+            "courses": [
                 {
-                    "title": "CS Degree",
+                    "title": "CS50 Machine Learning with Python",
                     "institution": "Hardvard",
-                    "start_date": "2018-06-24",
-                    "end_date": "2023-06-24",
-                }
+                    "start_date": "2022-09-28",
+                },
+                {
+                    "title": "AWS Cloud Practitioner",
+                    "institution": "Hardvard",
+                    "start_date": "2024-03-18",
+                },
             ],
         }
 
         success_response = {
-            "detail": {"message": "Educations saved succesfully"},
+            "detail": {"message": "Courses saved succesfully"},
             "data": {
                 "cv_id": 1,
                 "user_id": 1,
                 "description": [
                     {
-                        "title": "CS Degree",
+                        "title": "CS50 Machine Learning with Python",
                         "institution": "Hardvard",
-                        "start_date": "2018-06-24",
-                        "end_date": "2023-06-24",
-                    }
+                        "start_date": "2022-09-28",
+                    },
+                    {
+                        "title": "AWS Cloud Practitioner",
+                        "institution": "Hardvard",
+                        "start_date": "2024-03-18",
+                    },
                 ],
             },
         }
 
-        response = client.post("/api/cvs/education/", json=request_education_data)
+        response = client.post("/api/cvs/course/", json=request_course_data)
         assert response.json() == success_response
         assert response.status_code == 201

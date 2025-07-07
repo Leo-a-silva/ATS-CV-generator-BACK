@@ -21,10 +21,9 @@ app = create_test_app()
 client = TestClient(app)
 
 
-class TestCvCreation:
+class TestWECreation:
     @pytest.fixture(autouse=True)
     def clean_up_db(self):
-        SQLModel.metadata.drop_all(engine)
         SQLModel.metadata.create_all(engine)
         yield
         SQLModel.metadata.drop_all(engine)

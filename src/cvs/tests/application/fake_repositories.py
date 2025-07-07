@@ -1,6 +1,7 @@
 from datetime import datetime
 from typing import Optional
 from cvs.domain.repositories import (
+    CoursesRepository,
     CvsRepository,
     EducationsRepository,
     WorkExperiencesRepository,
@@ -11,6 +12,26 @@ from src.shared.domain.value_objects import Id
 from src.users.domain.models import User
 from src.users.domain.repositories import UsersRepository
 from src.users.domain.value_objects import UserEmailAddress
+
+
+class FakeCourseRepository(CoursesRepository):
+    def __init__(self):
+        self._courses = []
+
+    def all(self) -> list[Education]:
+        return list(self._courses)
+
+    def all_by_cv_id(self, id: Id) -> list[Education]:
+        primitive_cv_id = id.value if hasattr(id, "value") else id
+
+        results: list[Education] = [
+            course for course in self._courses if (course.cv_id() == primitive_cv_id)
+        ]
+
+        return results
+
+    def save(self, work_experience: Education) -> None:
+        self._courses.append(work_experience)
 
 
 class FakeEducationRepository(EducationsRepository):
@@ -70,6 +91,12 @@ class FakeCvRepository(CvsRepository):
     def exists_by_id(self, id: Id) -> bool:
         primitive_cv_id = id.value if hasattr(id, "value") else id
         return any(cv["id"] == primitive_cv_id for cv in self._cvs)
+
+    def get_by_id(self, id) -> Cv:
+        primitive_cv_id = id.value if hasattr(id, "value") else id
+        for cv in self._cvs:
+            if cv["id"] == primitive_cv_id:
+                return self._to_domain_model(cv)
 
     def _create_cv(self, cv: Cv) -> Cv:
         fake_cv = {
