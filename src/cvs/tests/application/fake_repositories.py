@@ -5,8 +5,9 @@ from cvs.domain.repositories import (
     CvsRepository,
     EducationsRepository,
     WorkExperiencesRepository,
+    SkillsRepository
 )
-from cvs.domain.models import Cv, Education, WorkExperience
+from cvs.domain.models import Cv, Education, WorkExperience, Skill
 from src.cvs.domain.value_objects import CvEmailAddress, CvPhoneNumber, CvURL
 from src.shared.domain.value_objects import Id
 from src.users.domain.models import User
@@ -72,6 +73,23 @@ class FakeWorkExperienceRepository(WorkExperiencesRepository):
 
     def save(self, work_experience: WorkExperience) -> None:
         self._work_experiences.append(work_experience)
+
+    
+class FakeSkillsRepository(SkillsRepository):
+    def __init__(self):
+        self._skills = []
+
+    def all_by_cv_id(self, id: Id) -> list[Skill]:
+        primitive_cv_id = id.value if hasattr(id, "value") else id
+
+        results: list[Skill] = [
+            skill for skill in self._skills if skill.cv_id() == primitive_cv_id
+        ]
+
+        return results
+
+    def save(self, skill: Skill) -> None:
+        self._skills.append(skill)
 
 
 class FakeCvRepository(CvsRepository):

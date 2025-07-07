@@ -275,3 +275,19 @@ class Course:
 
     def start_date(self) -> DateObject:
         return self._start_date
+
+
+class Skill:
+    def __init__(self, cv_id: int, skills: list[str]):
+        self._cv_id = cv_id
+        self._skills = skills
+
+    @classmethod
+    def create(cls, cv_id: int, skills: list[str]) -> "Skill":
+        return cls(cv_id=cv_id, skills=skills)
+
+    def cv_id(self) -> int:
+        return self._cv_id
+
+    def get_skills(self) -> list[str]:
+        return self._skills

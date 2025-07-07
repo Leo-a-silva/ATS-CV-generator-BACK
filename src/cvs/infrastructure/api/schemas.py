@@ -69,3 +69,8 @@ class CourseBase(BaseModel):
 class CourseCreate(BaseModel):
     cv_id: int
     courses: List[CourseBase]
+
+
+class SkillCreate(BaseModel):
+    cv_id: int
+    skills: List[str]

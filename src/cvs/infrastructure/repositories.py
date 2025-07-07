@@ -1,6 +1,8 @@
 from datetime import date, datetime
 from typing import List, Optional
 from sqlmodel import Field, Relationship, SQLModel, Session, select
+from sqlalchemy.dialects.postgresql import JSON
+from sqlalchemy import Column
 
 from src.cvs.domain.value_objects import CvEmailAddress, CvPhoneNumber, CvURL
 from src.shared.domain.value_objects import Id
@@ -9,10 +11,13 @@ from ..domain.repositories import (
     CvsRepository,
     EducationsRepository,
     WorkExperiencesRepository,
+    SkillsRepository
 )
-from ..domain.models import Cv, Education, WorkExperience
+from ..domain.models import Cv, Education, WorkExperience, Skill
 
 from shared.infrastructure.db_conf import engine
+
+import json
 
 
 class CvModel(SQLModel, table=True):
@@ -78,6 +83,7 @@ class CoursesModel(SQLModel, table=True):
     start_date: Optional[date] = None
 
 
+
 class SkillsModel(SQLModel, table=True):
     __tablename__ = "skills"
 
@@ -85,7 +91,7 @@ class SkillsModel(SQLModel, table=True):
     cv_id: int | None = Field(default=None, foreign_key="cvs.id")
     cv: Optional["CvModel"] = Relationship(back_populates="skills")
 
-    title: str = Field(..., max_length=30)
+    skills: list[str] = Field(default_factory=list, sa_column=Column(JSON))
 
 
 class SQLModelCvsRepository(CvsRepository):
@@ -298,3 +304,35 @@ class SQLModelCoursesRepository(EducationsRepository):
             session.add(education_model)
             session.commit()
             session.refresh(education_model)
+
+
+import json
+
+class SQLModelSkillsRepository(SkillsRepository):
+    def all_by_cv_id(self, cv_id: Id) -> list[Skill]:
+        primitive_cv_id = cv_id.value if hasattr(cv_id, "value") else cv_id
+
+        with Session(engine) as session:
+            stmt = select(SkillsModel).where(SkillsModel.cv_id == primitive_cv_id)
+            result = session.exec(stmt)
+            models: list[SkillsModel] = result.all()
+
+            domain_objs: list[Skill] = []
+            for model in models:
+                domain_obj = Skill(
+                    cv_id=model.cv_id,
+                    skills=json.loads(model.skills),
+                )
+                domain_objs.append(domain_obj)
+
+            return domain_objs
+
+    def save(self, skill: Skill) -> None:
+        skill_model = SkillsModel(
+            cv_id=skill.cv_id(),
+            skills=json.dumps(skill.get_skills()),
+        )
+        with Session(engine) as session:
+            session.add(skill_model)
+            session.commit()
+            session.refresh(skill_model)

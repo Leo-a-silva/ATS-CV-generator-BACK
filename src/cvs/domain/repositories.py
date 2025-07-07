@@ -2,7 +2,7 @@ from abc import ABC, abstractmethod
 
 from src.shared.domain.value_objects import Id
 
-from .models import Cv, Education, WorkExperience
+from .models import Cv, Education, WorkExperience, Skill
 
 
 class CvsRepository(ABC):
@@ -41,3 +41,11 @@ class CoursesRepository(ABC):
 
     @abstractmethod
     def save(self, education: Education) -> None: ...
+
+
+class SkillsRepository(ABC):
+    @abstractmethod
+    def all_by_cv_id(self, cv_id: Id) -> list[Skill]: ...
+    
+    @abstractmethod
+    def save(self, skill: Skill) -> None: ...
