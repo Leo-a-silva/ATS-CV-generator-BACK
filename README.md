@@ -241,6 +241,83 @@ Schema
   },
 }
 ```
+
+### Create new Courses
+
+```http
+  POST /api/cvs/courses/
+```
+
+Request body
+```json
+{
+  "cv_id": 0,
+  "courses": [
+      {
+        "title": "string",
+        "institution": "string",
+        "start_date": "2025-06-24",
+      },
+  ],
+}
+```
+
+201 Successful Response | Example Value
+Schema
+```json
+{
+  "detail": {
+    "message": "Courses saved succesfully"
+  },
+  "data": {
+    "cv_id": 0,
+    "user_id": 0,
+    "description": [
+      {
+        "title": "string",
+        "institution": "string",
+        "start_date": "2025-06-24",
+      },
+    ],
+  },
+}
+```
+
+### Create new Skill
+
+```http
+  POST /api/cvs/skills/
+```
+
+Request body
+```json
+{
+  "cv_id": 0,
+  "skills": [
+      "string",
+      "string",
+  ],
+}
+```
+
+201 Successful Response | Example Value
+Schema
+```json
+{
+  "detail": {
+    "message": "Skills saved succesfully"
+  },
+  "data": {
+    "cv_id": 0,
+    "user_id": 0,
+    "description": [
+      "string",
+      "string",
+    ],
+  },
+}
+```
+
 ## Run Locally
 
 Clone the project
@@ -251,16 +328,16 @@ Clone the project
 
 Switch to the 'develop' branch
 ```bash
-    git checkout develop
+  git checkout develop
 ```
 
 Create a new “.env” file using your credentials to connect to a PostgreSQL database
 ```bash
-    DB_USERNAME=your-username
-    DB_PASSWORD=your-password
-    DB_HOST=your-host
-    DB_PORT=your-port
-    DB_NAME=your-database-name
+  DB_USERNAME=your-username
+  DB_PASSWORD=your-password
+  DB_HOST=your-host
+  DB_PORT=your-port
+  DB_NAME=your-database-name
 ```
 
 Start the server using Docker Compose
