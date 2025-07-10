@@ -30,11 +30,6 @@ class CvBase(BaseModel):
     summary: str
 
 
-class CvCreate(BaseModel):
-    user_id: int
-    cv: CvBase
-
-
 class WorkExperienceBase(BaseModel):
     role: str
     company_name: str

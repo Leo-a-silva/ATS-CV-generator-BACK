@@ -1,4 +1,5 @@
-from fastapi import HTTPException, status, APIRouter
+from fastapi import Depends, HTTPException, status, APIRouter
+from fastapi.security import HTTPAuthorizationCredentials, HTTPBearer
 
 from cvs.application.create_cv import CreateCv, CreateCvCommand
 from src.cvs.domain.exceptions import (
@@ -7,7 +8,6 @@ from src.cvs.domain.exceptions import (
 )
 from src.cvs.infrastructure.api.schemas import (
     CvBase,
-    CvCreate,
     Data,
     Detail,
     ResponseSchema,
@@ -17,6 +17,7 @@ from cvs.infrastructure.repositories import (
 )
 from src.shared.domain.exceptions import InvalidEmailAddressException
 from src.users.domain.exceptions import UserDoesNotExist
+from src.users.infrastructure.api.dependencies import get_current_user_id
 from src.users.infrastructure.repositories import SQLModelUsersRepository
 
 cv_router = APIRouter(
@@ -29,8 +30,12 @@ cv_router = APIRouter(
     "/create/",
     response_model=ResponseSchema,
     status_code=status.HTTP_201_CREATED,
+    description="Requiere autenticación JWT. Enviar el token en el header: Authorization: Bearer <token>",
 )
-def create_cv(payload: CvCreate):
+def create_cv(
+    payload: CvBase,
+    current_user_id: int = Depends(get_current_user_id),
+):
     cvs_repository = SQLModelCvsRepository()
     users_repository = SQLModelUsersRepository()
 
@@ -39,16 +44,16 @@ def create_cv(payload: CvCreate):
 
         cv = create_cv_service.execute(
             CreateCvCommand(
-                user_id=payload.user_id,
-                first_name=payload.cv.first_name,
-                last_name=payload.cv.last_name,
-                email_address=payload.cv.email_address,
-                phone_number=payload.cv.phone_number,
-                linkedin_url=payload.cv.linkedin_url,
-                portfolio_url=payload.cv.portfolio_url,
-                country=payload.cv.country,
-                city=payload.cv.city,
-                summary=payload.cv.summary,
+                user_id=current_user_id,
+                first_name=payload.first_name,
+                last_name=payload.last_name,
+                email_address=payload.email_address,
+                phone_number=payload.phone_number,
+                linkedin_url=payload.linkedin_url,
+                portfolio_url=payload.portfolio_url,
+                country=payload.country,
+                city=payload.city,
+                summary=payload.summary,
             )
         )
         return ResponseSchema(

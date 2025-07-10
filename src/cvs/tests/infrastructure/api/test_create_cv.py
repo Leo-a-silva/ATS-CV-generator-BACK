@@ -5,6 +5,8 @@ from fastapi import FastAPI
 
 from shared.infrastructure.db_conf import engine
 
+from src.shared.infrastructure.logger_conf import logger
+
 
 def create_test_app():
     from src.cvs.infrastructure.api.router import router as cvs_router
@@ -39,20 +41,24 @@ class TestCvCreation:
 
         client.post("/api/users/register/", json=request_data)
 
+        request_login = {
+            "email_address": "test@example.com",
+            "password": "Secure_password123",
+        }
+
+        login_response = client.post("/api/users/login/", json=request_login)
+
         # Create CV
         cv_input = {
-            "user_id": 1,
-            "cv": {
-                "first_name": "Steve",
-                "last_name": "Jobs",
-                "email_address": "steve.jobs@example.com",
-                "phone_number": "+543434586789",
-                "linkedin_url": "https://linkedin.com/",
-                "portfolio_url": "https://ats.com/",
-                "country": "ARG",
-                "city": "Buenos Aires",
-                "summary": "Star",
-            },
+            "first_name": "Steve",
+            "last_name": "Jobs",
+            "email_address": "steve.jobs@example.com",
+            "phone_number": "+543434586789",
+            "linkedin_url": "https://linkedin.com/",
+            "portfolio_url": "https://ats.com/",
+            "country": "ARG",
+            "city": "Buenos Aires",
+            "summary": "Star",
         }
 
         res = {
@@ -76,6 +82,10 @@ class TestCvCreation:
             },
         }
 
-        response = client.post("/api/cvs/create/", json=cv_input)
+        headers = {
+            "Authorization": f"Bearer {(login_response.json())['data']['access_token']}"
+        }
+
+        response = client.post("/api/cvs/create/", json=cv_input, headers=headers)
         assert response.json() == res
         assert response.status_code == 201
