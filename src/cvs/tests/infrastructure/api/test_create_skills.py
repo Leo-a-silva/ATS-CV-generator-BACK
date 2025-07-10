@@ -64,10 +64,18 @@ class TestSkillCreation:
         }
 
         success_response = {
-            "detail": {"message": "Skills saved successfully"},
+            "detail": {
+                "message": "Skills saved successfully",
+            },
             "data": {
                 "cv_id": 1,
-                "description": ["Python", "Javascript", "React", "FastAPI"],
+                "user_id": 1,
+                "description": [
+                    "Python",
+                    "Javascript",
+                    "React",
+                    "FastAPI",
+                ],
             },
         }
 

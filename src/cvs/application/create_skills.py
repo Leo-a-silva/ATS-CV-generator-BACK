@@ -26,7 +26,7 @@ class CreateSkill:
         self._skill_repository = skill_repository
         self._cv_repository = cv_repository
 
-    def execute(self, command: CreateSkillCommand) -> CreateSkillResponse:
+    def execute(self, command: CreateSkillCommand) -> Skill:
         id_object = Id(value=command.cv_id)
         if not self._cv_repository.exists_by_id(id_object):
             raise CVDoesNotExist(message=f"CV with id {command.cv_id} does not exist")

@@ -11,7 +11,7 @@ from ..domain.repositories import (
     CvsRepository,
     EducationsRepository,
     WorkExperiencesRepository,
-    SkillsRepository
+    SkillsRepository,
 )
 from ..domain.models import Cv, Education, WorkExperience, Skill
 
@@ -83,7 +83,6 @@ class CoursesModel(SQLModel, table=True):
     start_date: Optional[date] = None
 
 
-
 class SkillsModel(SQLModel, table=True):
     __tablename__ = "skills"
 
@@ -91,7 +90,7 @@ class SkillsModel(SQLModel, table=True):
     cv_id: int | None = Field(default=None, foreign_key="cvs.id")
     cv: Optional["CvModel"] = Relationship(back_populates="skills")
 
-    skills: list[str] = Field(default_factory=list, sa_column=Column(JSON))
+    skills: str = Field(..., max_length=200)
 
 
 class SQLModelCvsRepository(CvsRepository):
@@ -306,8 +305,6 @@ class SQLModelCoursesRepository(EducationsRepository):
             session.refresh(education_model)
 
 
-import json
-
 class SQLModelSkillsRepository(SkillsRepository):
     def all_by_cv_id(self, cv_id: Id) -> list[Skill]:
         primitive_cv_id = cv_id.value if hasattr(cv_id, "value") else cv_id
@@ -330,8 +327,9 @@ class SQLModelSkillsRepository(SkillsRepository):
     def save(self, skill: Skill) -> None:
         skill_model = SkillsModel(
             cv_id=skill.cv_id(),
-            skills=json.dumps(skill.get_skills()),
+            skills=str(skill.get_skills()),
         )
+
         with Session(engine) as session:
             session.add(skill_model)
             session.commit()
