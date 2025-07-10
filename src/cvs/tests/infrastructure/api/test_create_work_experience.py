@@ -39,23 +39,31 @@ class TestWECreation:
 
         client.post("/api/users/register/", json=request_user_data)
 
-        # Create fake cv
-        request_cv_data = {
-            "user_id": 1,
-            "cv": {
-                "first_name": "Steve",
-                "last_name": "Jobs",
-                "email_address": "steve.jobs@example.com",
-                "phone_number": "+543434586789",
-                "linkedin_url": "https://linkedin.com/",
-                "portfolio_url": "https://ats.com/",
-                "country": "ARG",
-                "city": "Buenos Aires",
-                "summary": "Star",
-            },
+        request_login = {
+            "email_address": "test@example.com",
+            "password": "Secure_password123",
         }
 
-        client.post("/api/cvs/create/", json=request_cv_data)
+        login_response = client.post("/api/users/login/", json=request_login)
+
+        # Create fake cv
+        request_cv_data = {
+            "first_name": "Steve",
+            "last_name": "Jobs",
+            "email_address": "steve.jobs@example.com",
+            "phone_number": "+543434586789",
+            "linkedin_url": "https://linkedin.com/",
+            "portfolio_url": "https://ats.com/",
+            "country": "ARG",
+            "city": "Buenos Aires",
+            "summary": "Star",
+        }
+
+        headers = {
+            "Authorization": f"Bearer {(login_response.json())['data']['access_token']}"
+        }
+
+        client.post("/api/cvs/create/", json=request_cv_data, headers=headers)
 
         # Create Work Experience
         request_we_data = {
@@ -88,6 +96,8 @@ class TestWECreation:
             },
         }
 
-        response = client.post("/api/cvs/work-experience", json=request_we_data)
+        response = client.post(
+            "/api/cvs/work-experience", json=request_we_data, headers=headers
+        )
         assert response.json() == success_response
         assert response.status_code == 201

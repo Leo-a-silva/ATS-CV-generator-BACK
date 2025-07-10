@@ -1,5 +1,5 @@
 from typing import List
-from fastapi import HTTPException, status, APIRouter
+from fastapi import Depends, HTTPException, status, APIRouter
 
 from src.cvs.application.create_work_experience import (
     CreateWECommand,
@@ -20,6 +20,7 @@ from cvs.infrastructure.repositories import (
     SQLModelWorkExperiencesRepository,
 )
 from src.shared.domain.value_objects import Id
+from src.users.infrastructure.api.dependencies import get_current_user_id
 
 we_router = APIRouter(
     prefix="/cvs",
@@ -31,8 +32,12 @@ we_router = APIRouter(
     "/work-experience/",
     response_model=ResponseSchema,
     status_code=status.HTTP_201_CREATED,
+    description="Requiere autenticación JWT. Enviar el token en el header: Authorization: Bearer <token>",
 )
-def create_work_experience(payload: WorkExperienceCreate):
+def create_work_experience(
+    payload: WorkExperienceCreate,
+    current_user_id: int = Depends(get_current_user_id),
+):
     we_repository = SQLModelWorkExperiencesRepository()
     cv_repository = SQLModelCvsRepository()
     create_work_exp_service = CreateWorkExperience(we_repository, cv_repository)
