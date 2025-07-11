@@ -1,5 +1,5 @@
 from typing import List
-from fastapi import HTTPException, status, APIRouter
+from fastapi import Depends, HTTPException, status, APIRouter
 
 from src.cvs.application.create_course import (
     CreateCourse,
@@ -20,6 +20,7 @@ from cvs.infrastructure.repositories import (
     SQLModelCoursesRepository,
 )
 from src.shared.domain.value_objects import Id
+from src.users.infrastructure.api.dependencies import get_current_user_id
 
 course_router = APIRouter(
     prefix="/cvs",
@@ -31,8 +32,13 @@ course_router = APIRouter(
     "/course/",
     response_model=ResponseSchema,
     status_code=status.HTTP_201_CREATED,
+    description="Requiere autenticación JWT. Enviar el token en el header: Authorization: Bearer <token>",
+
 )
-def create_course(payload: CourseCreate):
+def create_course(
+    payload: CourseCreate,
+    current_user_id: int = Depends(get_current_user_id),
+):
     course_repository = SQLModelCoursesRepository()
     cv_repository = SQLModelCvsRepository()
     create_course_service = CreateCourse(course_repository, cv_repository)

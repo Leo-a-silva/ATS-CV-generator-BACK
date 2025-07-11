@@ -1,12 +1,23 @@
-from fastapi import APIRouter, HTTPException, status
-from src.cvs.application.create_skills import CreateSkill, CreateSkillCommand
+from fastapi import Depends, APIRouter, HTTPException, status
+
+from src.cvs.application.create_skills import (
+    CreateSkill, 
+    CreateSkillCommand
+)
 from src.cvs.domain.exceptions import CVDoesNotExist
-from src.cvs.infrastructure.api.schemas import ResponseSchema, Detail, Data, SkillCreate
+
+from src.cvs.infrastructure.api.schemas import (
+    ResponseSchema, 
+    Detail, 
+    Data, 
+    SkillCreate
+)
 from cvs.infrastructure.repositories import (
     SQLModelSkillsRepository,
     SQLModelCvsRepository,
 )
 from src.shared.domain.value_objects import Id
+from src.users.infrastructure.api.dependencies import get_current_user_id
 
 skill_router = APIRouter(
     prefix="/cvs",
@@ -18,9 +29,12 @@ skill_router = APIRouter(
     "/skills/",
     response_model=ResponseSchema,
     status_code=status.HTTP_201_CREATED,
+    description="Requiere autenticación JWT. Enviar el token en el header: Authorization: Bearer <token>",
+
 )
 def create_skills(
     payload: SkillCreate,
+    current_user_id: int = Depends(get_current_user_id),
 ):
     skill_repository = SQLModelSkillsRepository()
     cv_repository = SQLModelCvsRepository()
