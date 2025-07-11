@@ -53,7 +53,7 @@ Schema
   },
   "data": {
     "user_id": 1,
-    "access_token": "Not created until login",
+    "access_token": null,
     "description": [
       {
         "first_name": "string",
@@ -108,22 +108,21 @@ Schema
   POST /api/cvs/create/
 ```
 
+> [!NOTE]
+> Requires JWT authentication. Send the token in the header: Authorization: Bearer <token>
+
 Request body
 ```json
 {
-  "user_id": 0,
-  "cv": 
-    {
-      "first_name": "string",
-      "last_name": "string",
-      "email_address": "string",
-      "phone_number": "string",
-      "linkedin_url": "string",
-      "portfolio_url": "string",
-      "country": "string",
-      "city": "string",
-      "summary": "string",
-    }
+    "first_name": "string",
+    "last_name": "string",
+    "email_address": "string",
+    "phone_number": "string",
+    "linkedin_url": "string",
+    "portfolio_url": "string",
+    "country": "string",
+    "city": "string",
+    "summary": "string",
 }
 ```
 
@@ -159,6 +158,9 @@ Schema
 ```http
   POST /api/cvs/work-experience/
 ```
+
+> [!NOTE]
+> Requires JWT authentication. Send the token in the header: Authorization: Bearer <token>
 
 Request body
 ```json
@@ -354,18 +356,28 @@ Start the server using Docker Compose
 
 Create a new virtual environment
 ```bash
-python -m venv venv
-source venv/bin/activate
+  python -m venv venv
+  source venv/bin/activate
 ```
 
 Install dependencies
 ```bash
-pip install -r requirements.txt
+  pip install -r requirements.txt
 ```
 
-Run tests
+Run all tests
 ```bash
   cd src
   python -m pytest
+```
+
+Run specific test file
+```bash
+  python -m pytest path/to/the/file.py
+```
+
+Run specific test function
+```bash
+  python -m pytest path/to/the/file.py -k "test_function"
 ```
 
