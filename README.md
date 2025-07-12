@@ -207,6 +207,9 @@ Schema
   POST /api/cvs/education/
 ```
 
+> [!NOTE]
+> Requires JWT authentication. Send the token in the header: Authorization: Bearer <token>
+
 Request body
 ```json
 {
@@ -250,6 +253,9 @@ Schema
   POST /api/cvs/courses/
 ```
 
+> [!NOTE]
+> Requires JWT authentication. Send the token in the header: Authorization: Bearer <token>
+
 Request body
 ```json
 {
@@ -290,6 +296,9 @@ Schema
 ```http
   POST /api/cvs/skills/
 ```
+
+> [!NOTE]
+> Requires JWT authentication. Send the token in the header: Authorization: Bearer <token>
 
 Request body
 ```json
