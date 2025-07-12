@@ -63,7 +63,7 @@ class TestSkillCreation:
             "Authorization": f"Bearer {(login_response.json())['data']['access_token']}"
         }
 
-        client.post("/api/cvs/create/", json=request_cv_data)
+        client.post("/api/cvs/create/", json=request_cv_data, headers=headers)
 
         # Create Skills
         request_skill_data = {
@@ -87,6 +87,8 @@ class TestSkillCreation:
             },
         }
 
-        response = client.post("/api/cvs/skills/", json=request_skill_data)
+        response = client.post(
+            "/api/cvs/skills/", json=request_skill_data, headers=headers
+        )
         assert response.status_code == 201
         assert response.json() == success_response

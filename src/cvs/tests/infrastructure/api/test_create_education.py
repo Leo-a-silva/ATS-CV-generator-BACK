@@ -43,7 +43,7 @@ class TestEducationCreation:
             "email_address": "test@example.com",
             "password": "Secure_password123",
         }
-    
+
         login_response = client.post("/api/users/login/", json=request_login)
 
         # Create fake cv
@@ -63,7 +63,7 @@ class TestEducationCreation:
             "Authorization": f"Bearer {(login_response.json())['data']['access_token']}"
         }
 
-        client.post("/api/cvs/create/", json=request_cv_data)
+        client.post("/api/cvs/create/", json=request_cv_data, headers=headers)
 
         # Create Education
         request_education_data = {
@@ -94,6 +94,8 @@ class TestEducationCreation:
             },
         }
 
-        response = client.post("/api/cvs/education/", json=request_education_data)
+        response = client.post(
+            "/api/cvs/education/", json=request_education_data, headers=headers
+        )
         assert response.json() == success_response
         assert response.status_code == 201
