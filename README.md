@@ -3,14 +3,14 @@
 
 API for generating ATS proof resumes
 
-## Index
+## 🖇 Index
 
-- [Technologies and Infrastructure](#technologies-and-infrastructure)
-- [API Reference](#api-reference)
-- [Run Locally](#run-locally)
-- [Running Tests](#running-tests)
+- [🛠 Technologies and Infrastructure](#technologies-and-infrastructure)
+- [🧩 API Reference](#api-reference)
+- [🌐 Run Locally](#run-locally)
+- [🧪 Running Tests](#running-tests)
 
-## Technologies and Infrastructure
+## 🛠 Technologies and Infrastructure
 
 **Design:** Domain Driven Design + Clean Architecture
 
@@ -19,7 +19,7 @@ API for generating ATS proof resumes
 **Tech:** Python, FastAPI, PostgreSQL, Docker
 
 
-## API Reference
+## 🧩 API Reference
 
 ### Check health
 
@@ -335,7 +335,7 @@ Schema
 }
 ```
 
-## Run Locally
+## 🌐 Run Locally
 
 Clone the project
 
@@ -364,7 +364,7 @@ Start the server using Docker Compose
 ```
 
 
-## Running Tests
+## 🧪 Running Tests
 
 > [!WARNING]  
 > The tests implemented are specifically designed to run in a development environment. Each test deletes the records from the database once it is executed. Do not run the tests in a production environment.
