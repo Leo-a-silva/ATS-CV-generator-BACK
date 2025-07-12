@@ -3,6 +3,12 @@
 
 API for generating ATS proof resumes
 
+## Index
+
+- [Technologies and Infrastructure](#technologies-and-infrastructure)
+- [API Reference](#api-reference)
+- [Run Locally](#run-locally)
+- [Running Tests](#running-tests)
 
 ## Technologies and Infrastructure
 
