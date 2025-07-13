@@ -3,12 +3,12 @@
 
 API for generating ATS proof resumes
 
-## 🖇 Index
+## Index
 
-- [🛠 Technologies and Infrastructure](#technologies-and-infrastructure)
-- [🧩 API Reference](#api-reference)
-- [🌐 Run Locally](#run-locally)
-- [🧪 Running Tests](#running-tests)
+- [Technologies and Infrastructure](#technologies-and-infrastructure)
+- [API Reference](#api-reference)
+- [Run Locally](#run-locally)
+- [Running Tests](#running-tests)
 
 ## 🛠 Technologies and Infrastructure
 
@@ -20,6 +20,17 @@ API for generating ATS proof resumes
 
 
 ## 🧩 API Reference
+
+### Endpoints index
+
+- [Check health](#check-health)
+- [Register new User](#register-new-user)
+- [Login User](#login-user)
+- [Create new CV](#create-new-cv)
+- [Add Work Experience](#add-work-experience)
+- [Add Education](#add-education)
+- [Add Courses](#add-courses)
+- [Add Skill](#add-skills)
 
 ### Check health
 
@@ -159,7 +170,7 @@ Schema
 }
 ```
 
-### Create new Work Experience
+### Add Work Experience
 
 ```http
   POST /api/cvs/work-experience/
@@ -207,7 +218,7 @@ Schema
 }
 ```
 
-### Create new Education
+### Add Education
 
 ```http
   POST /api/cvs/education/
@@ -253,7 +264,7 @@ Schema
 }
 ```
 
-### Create new Courses
+### Add Courses
 
 ```http
   POST /api/cvs/courses/
@@ -297,7 +308,7 @@ Schema
 }
 ```
 
-### Create new Skill
+### Add Skill
 
 ```http
   POST /api/cvs/skills/
