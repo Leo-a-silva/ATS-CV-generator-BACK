@@ -9,10 +9,10 @@ API for generating ATS proof resumes
 ## Index
 
 - [Summary](#summary)
-- [Technologies](#technologies)
-- [API Reference](#api-reference)
-- [Run Locally](#run-locally)
-- [Running Tests](#running-tests)
+- [Technologies](#-technologies)
+- [API Reference](#-api-reference)
+- [Run Locally](#-run-locally)
+- [Running Tests](#-running-tests)
 
 ## Summary
 
