@@ -356,13 +356,13 @@ Schema
 
 ## 🌐 Run Locally
 
-#### Clone the project
+#### 1. Clone the project
 
 ```bash
   git clone https://github.com/Leo-a-silva/ATS-CV-generator-BACK.git
 ```
 
-#### Set up the branch
+#### 2. Set up the branch
 
 Switch to the 'develop' branch
 
@@ -370,7 +370,7 @@ Switch to the 'develop' branch
   git checkout develop
 ```
 
-#### Set environment variables
+#### 3. Set environment variables
 
 Create a new “.env” file using your credentials to connect to a PostgreSQL database
 
@@ -382,7 +382,7 @@ Create a new “.env” file using your credentials to connect to a PostgreSQL d
   DB_NAME=your-database-name
 ```
 
-#### Run
+#### 4. Run
 
 Start the server using Docker Compose
 
@@ -390,7 +390,7 @@ Start the server using Docker Compose
   docker compose up --build
 ```
 
-#### Check if it works
+#### 5. Check if it works
 
 Check the health of the API by sending a GET request to the following endpoint
 
@@ -413,29 +413,29 @@ Check the health of the API by sending a GET request to the following endpoint
 > [!WARNING]  
 > The tests implemented are specifically designed to run in a development environment. Each test deletes the records from the database once it is executed. Do not run the tests in a production environment.
 
-Create a new virtual environment
+#### Create a new virtual environment
 ```bash
   python -m venv venv
   source venv/bin/activate
 ```
 
-Install dependencies
+#### Install dependencies
 ```bash
   pip install -r requirements.txt
 ```
 
-Run all tests
+#### Run all tests
 ```bash
   cd src
   python -m pytest
 ```
 
-Run specific test file
+#### Run specific test file
 ```bash
   python -m pytest path/to/the/file.py
 ```
 
-Run specific test function
+#### Run specific test function
 ```bash
   python -m pytest path/to/the/file.py -k "test_function"
 ```
