@@ -6,6 +6,9 @@ API for generating ATS proof resumes
 > [!NOTE]
 > Currently under development
 
+> [!TIP]
+> Use the indexes to better navigate the README
+
 ## Index
 
 - [Summary](#summary)
@@ -133,7 +136,7 @@ Schema
   POST /api/cvs/create/
 ```
 
-> [!NOTE]
+> [!IMPORTANT]
 > Requires JWT authentication. Send the token in the header: Authorization: Bearer <token>
 
 Request body
@@ -184,7 +187,7 @@ Schema
   POST /api/cvs/work-experience/
 ```
 
-> [!NOTE]
+> [!IMPORTANT]
 > Requires JWT authentication. Send the token in the header: Authorization: Bearer <token>
 
 Request body
@@ -232,7 +235,7 @@ Schema
   POST /api/cvs/education/
 ```
 
-> [!NOTE]
+> [!IMPORTANT]
 > Requires JWT authentication. Send the token in the header: Authorization: Bearer <token>
 
 Request body
@@ -278,7 +281,7 @@ Schema
   POST /api/cvs/courses/
 ```
 
-> [!NOTE]
+> [!IMPORTANT]
 > Requires JWT authentication. Send the token in the header: Authorization: Bearer <token>
 
 Request body
@@ -405,12 +408,12 @@ Check the health of the API by sending a GET request to the following endpoint
 }
 ```
 
-> If you receive “ok”, then the API is working correctly! Enjoy 🤓
+If you receive this response, then the API is running correctly! Enjoy 🤓
 
 
 ## 🧪 Running Tests
 
-> [!WARNING]  
+> [!CAUTION] 
 > The tests implemented are specifically designed to run in a development environment. Each test deletes the records from the database once it is executed. Do not run the tests in a production environment.
 
 #### Create a new virtual environment
