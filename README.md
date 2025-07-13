@@ -8,19 +8,20 @@ API for generating ATS proof resumes
 
 ## Index
 
+- [Summary](#summary)
 - [Technologies](#technologies)
 - [API Reference](#api-reference)
 - [Run Locally](#run-locally)
 - [Running Tests](#running-tests)
 
-## Resume
+## Summary
 
 **With this API you can:**
 - Create new users.
 - Log in using Google and LinkedIn.
 - Create ATS-proof resumes.
 - Manage your created resumes.
-- Download your resumes in PDF or Docx format.
+- Download your resumes in PDF or Docx format. (coming soon)
 
 ## 🛠 Technologies
 
