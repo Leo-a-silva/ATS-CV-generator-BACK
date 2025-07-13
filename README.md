@@ -6,10 +6,10 @@ API for generating ATS proof resumes
 > [!NOTE]
 > Currently under development
 
+## Index
+
 > [!TIP]
 > Use the indexes to better navigate the README
-
-## Index
 
 - [Summary](#summary)
 - [Technologies](#-technologies)
