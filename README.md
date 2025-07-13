@@ -3,21 +3,28 @@
 
 API for generating ATS proof resumes
 
+> [!NOTE]
+> Currently under development
+
 ## Index
 
-- [Technologies and Infrastructure](#technologies-and-infrastructure)
+- [Technologies](#technologies)
 - [API Reference](#api-reference)
 - [Run Locally](#run-locally)
 - [Running Tests](#running-tests)
 
-## 🛠 Technologies and Infrastructure
+## Resume
+
+**With this API you can:**
+- Create new users.
+- Log in using Google and LinkedIn.
+- Create ATS-proof resumes.
+- Manage your created resumes.
+- Download your resumes in PDF or Docx format.
+
+## 🛠 Technologies
 
 ![Python](https://img.shields.io/badge/python-3670A0?style=for-the-badge&logo=python&logoColor=ffdd54) ![FastAPI](https://img.shields.io/badge/FastAPI-005571?style=for-the-badge&logo=fastapi) ![Postgres](https://img.shields.io/badge/postgres-%23316192.svg?style=for-the-badge&logo=postgresql&logoColor=white) ![Docker](https://img.shields.io/badge/docker-257bd6?style=for-the-badge&logo=docker&logoColor=white)
-
-**Design:** Domain Driven Design + Clean Architecture
-
-**Development:** Test Driven Development
-
 
 ## 🧩 API Reference
 
