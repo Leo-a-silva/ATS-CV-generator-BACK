@@ -356,18 +356,24 @@ Schema
 
 ## 🌐 Run Locally
 
-Clone the project
+#### Clone the project
 
 ```bash
   git clone https://github.com/Leo-a-silva/ATS-CV-generator-BACK.git
 ```
 
+#### Set up the branch
+
 Switch to the 'develop' branch
+
 ```bash
   git checkout develop
 ```
 
+#### Set environment variables
+
 Create a new “.env” file using your credentials to connect to a PostgreSQL database
+
 ```bash
   DB_USERNAME=your-username
   DB_PASSWORD=your-password
@@ -376,11 +382,30 @@ Create a new “.env” file using your credentials to connect to a PostgreSQL d
   DB_NAME=your-database-name
 ```
 
+#### Run
+
 Start the server using Docker Compose
 
 ```bash
   docker compose up --build
 ```
+
+#### Check if it works
+
+Check the health of the API by sending a GET request to the following endpoint
+
+```http
+  POST /api/health/
+```
+
+201 Successful Response
+```json
+{
+  "detail": "ok"
+}
+```
+
+> If you receive “ok”, then the API is working correctly! Enjoy 🤓
 
 
 ## 🧪 Running Tests
